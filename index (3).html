@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="ko"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>明의 당일 주도주 분석 10/21(수)</title>
+<style>
+:root { --bg:#f5f5f5; --card:#fff; --text:#222; --sub:#777; --line:#ddd; --head:#eee; --hover:#eef4ff;
+        --accent:#2b6cb0; --up:#e03131; --dn:#1c7ed6; --sup:#2f9e44; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#1b1b1d; --card:#26262a; --text:#e8e8e8; --sub:#9a9a9a; --line:#3a3a40; --head:#303036;
+          --hover:#2d3442; --accent:#7fb2f0; --up:#ff8787; --dn:#74c0fc; --sup:#69db7c; } }
+* { box-sizing: border-box; }
+body { font-family: Arial, "Malgun Gothic", sans-serif; margin: 0; padding: 18px 16px 40px;
+       background: var(--bg); color: var(--text); }
+.wrap { max-width: 1100px; margin: 0 auto; }
+h1 { margin: 0 0 2px; font-size: 24px; }
+h1 .mg { color: #e8590c; font-family: "Gungsuh", "궁서", serif; font-size: 1.3em; }
+.info { color: var(--sub); font-size: 13px; margin: 2px 0 8px; }
+.disc { display: inline-block; color: #d9480f; background: rgba(253,126,20,.10); border: 1px solid rgba(253,126,20,.35);
+        border-radius: 6px; font-size: 12.5px; font-weight: bold; padding: 5px 10px; margin: 4px 0 10px; line-height: 1.5; }
+@media (prefers-color-scheme: dark) { .disc { color: #ffa94d; } }
+.top { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 0 0 12px; font-size: 13px; }
+.top .lab { color: var(--sub); }
+.tchip { padding: 3px 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--card);
+         cursor: pointer; font-size: 13px; color: var(--text); }
+.tchip b { color: var(--up); }
+.rwarn { color: #d32f2f; white-space: nowrap; }
+h1 .dt { font-size: .62em; color: var(--sub); font-weight: normal; margin-left: 4px; white-space: nowrap; }
+.bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.seg button { padding: 7px 14px; font-size: 13.5px; border: 0; background: var(--card); color: var(--text); cursor: pointer; }
+.seg button.on { background: var(--accent); color: var(--card); font-weight: bold; }
+select, input[type=search] { padding: 7px 9px; font-size: 13.5px; border: 1px solid var(--line); border-radius: 6px;
+         background: var(--card); color: var(--text); }
+input[type=search] { flex: 1; min-width: 160px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; margin: 0 0 12px; overflow: hidden; }
+.chead { padding: 10px 12px; background: var(--head); display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
+.chead h3 { margin: 0; font-size: 15.5px; }
+.chead .s { font-size: 12.5px; color: var(--sub); }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th, td { padding: 8px 6px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+th { font-size: 12px; color: var(--sub); font-weight: bold; cursor: pointer; user-select: none; }
+th:first-child, td:first-child { text-align: left; white-space: normal; }
+tbody tr { cursor: pointer; }
+tbody tr:hover { background: var(--hover); }
+tbody tr:last-child td { border-bottom: 0; }
+td small { color: var(--sub); font-size: 11.5px; }
+.u { color: var(--up); font-weight: bold; } .d { color: var(--dn); font-weight: bold; }
+.bd { display: inline-block; font-size: 10.5px; font-weight: bold; padding: 0 5px; border-radius: 4px; margin-left: 3px;
+      vertical-align: 1px; border: 1px solid currentColor; }
+.bd.hi { color: var(--up); } .bd.lim { color: #fff; background: var(--up); border-color: var(--up); }
+.bd.st { color: #e67700; } .bd.w { color: var(--up); }
+.g { display: inline-block; min-width: 26px; text-align: center; font-weight: bold; border-radius: 5px; padding: 0 4px; background: var(--head); }
+.g.S, .g.A { color: var(--up); } .g.B { color: #e67700; }
+.empty { padding: 30px; text-align: center; color: var(--sub); background: var(--card); border-radius: 10px; border: 1px solid var(--line); }
+.foot { color: var(--sub); font-size: 12px; line-height: 1.7; margin-top: 18px; }
+@media (max-width: 700px) { .hm { display: none; } th, td { padding: 8px 4px; } table { font-size: 13px; } }
+
+/* 상세 */
+#dv { display: none; position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,.5); overflow-y: auto; }
+#dv.on { display: block; }
+#dv .box { max-width: 680px; margin: 20px auto; background: var(--card); border-radius: 12px; padding: 16px; border: 1px solid var(--line); }
+@media (max-width: 700px) { #dv .box { margin: 0; min-height: 100%; border-radius: 0; border: 0; } }
+.dh { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.dh h2 { margin: 0; font-size: 20px; } .dh h2 small { color: var(--sub); font-size: 13px; font-weight: normal; }
+.xbtn { padding: 6px 12px; font-size: 13px; font-weight: bold; border-radius: 8px; border: 1px solid var(--line);
+        background: var(--head); color: var(--text); cursor: pointer; white-space: nowrap; }
+.sub2 { color: var(--sub); font-size: 13px; margin: 4px 0 10px; display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: center; }
+.chart { padding: 2px 10px; border-radius: 999px; font-size: 12.5px; font-weight: bold; text-decoration: none; color: var(--accent);
+         border: 1.5px solid #a9cdf3; }
+.kv { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 8px 0 12px; }
+@media (max-width: 520px) { .kv { grid-template-columns: repeat(2, 1fr); } }
+.kv div { background: var(--head); border-radius: 8px; padding: 7px 9px; }
+.kv .kl { display: block; font-size: 11.5px; color: var(--sub); }
+.kv b { font-size: 15px; }
+.sum3 { display: grid; grid-template-columns: auto 1fr; gap: 6px 10px; padding: 10px 12px; border: 1px solid var(--line);
+        border-radius: 10px; margin: 0 0 12px; }
+.sum3 .k { font-size: 12.5px; color: var(--sub); font-weight: bold; white-space: nowrap; }
+.sum3 .v { font-size: 13.5px; line-height: 1.55; word-break: keep-all; }
+.sec { margin: 0 0 10px; font-size: 13.5px; line-height: 1.6; word-break: keep-all; }
+.sec b.t { display: inline-block; min-width: 82px; color: var(--sub); font-size: 12.5px; }
+.sig { font-weight: bold; margin-right: 6px; } .sig.up { color: var(--up); } .sig.sup { color: var(--sup); } .sig.dn { color: var(--dn); }
+.inv-b { color: var(--up); font-weight: bold; } .inv-s { color: var(--dn); font-weight: bold; }
+/* (10/16) 대장주 · 일봉 위치 · 오후 지지 */
+.bd.top { color: #fff; background: #e8590c; border-color: #e8590c; }
+.bd.lead { color: #e8590c; }
+.bd.brk { color: #f08c00; }
+.bd.hold { color: #fff; background: var(--sup); border-color: var(--sup); }
+.bd.near { color: #e67700; }
+.bd.cont { color: #7048e8; }
+.rk { color: var(--sub); } .rk.hot { color: var(--up); font-weight: bold; }
+.toprow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; width: 100%; }
+.top { flex-direction: column; align-items: flex-start; }
+.tchip.core { border-color: var(--up); background: rgba(224, 49, 49, .08); font-weight: bold; }
+.tchip.on { border-color: var(--up); color: var(--up); font-weight: bold; }
+.tchip small { color: var(--sub); font-weight: normal; }
+.tchip.core.none { background: var(--card); font-weight: normal; }
+.tl { font-size: 12.5px; padding: 2px 8px; border-radius: 6px; background: var(--head); }
+.tl.mine { outline: 1.5px solid #e8590c; }
+.tl small { color: var(--sub); }
+.dres { margin: 10px 0 4px; font-size: 14px; } .dres b { color: #e8590c; }
+.capn { color: var(--dn); font-size: 12.5px; margin: 6px 0 0; }
+/* (10/17) 오늘의 1등 */
+.tc { border: 2px solid #e8590c; border-radius: 12px; background: var(--card); padding: 12px 14px; margin: 0 0 12px; }
+.tc .h { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline; }
+.tc .h .lab { font-size: 13px; color: #e8590c; font-weight: bold; }
+.tc .h b.nm { font-size: 20px; cursor: pointer; text-decoration: underline; text-decoration-color: var(--line); }
+.tc .sell { margin: 8px 0 4px; font-size: 14.5px; }
+.tc .sell b { color: #e8590c; }
+/* (10/18) 원탑 주요거래원·유형 줄 */
+.tc .jp { margin: 6px 0 2px; font-size: 14px; }
+.tc .jp b { color: var(--text); }
+.tc .jp small { color: var(--sub); }
+.okm { color: var(--sup); font-weight: bold; }
+.tc .note { font-size: 12px; color: var(--sub); line-height: 1.55; }
+/* (10/18) 장세 게이지: 조건식 '주도' 걸린 종목 수 (8 미만 약세 · 20↑ 강세) */
+.tc.tg { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: center; }
+.tc.tg .tinfo { flex: 1 1 260px; min-width: 0; }
+.gz { text-align: center; flex: 0 0 auto; margin: 0 auto; }
+.gz svg { display: block; margin: 0 auto; }
+.gz-t { font-size: 12.5px; color: var(--sub); font-weight: bold; }
+.gz-v { font-size: 17px; font-weight: bold; margin-top: -2px; }
+.gz-v.u { color: var(--up); } .gz-v.d { color: var(--dn); }
+.gz-s { font-size: 11.5px; color: var(--sub); }
+.gz-lo { stroke: #a5c8f0; } .gz-mid { stroke: rgba(127,127,127,.25); } .gz-hi { stroke: #f2a9a9; }
+.gz-tick { stroke: var(--sub); stroke-width: 1.3; } .gz-tick.big { stroke: var(--text); stroke-width: 2.4; }
+.gz-needle { stroke: var(--text); } .gz-hub { fill: var(--text); }
+.gz-end { font-size: 9.5px; } .gz-end.lo { fill: var(--dn); } .gz-end.hi { fill: var(--up); }
+.ic { display: inline-flex; align-items: center; margin-left: 3px; font-size: 14px; line-height: 1; vertical-align: -2px; color: var(--up); }
+.bd.one { color: #fff; background: #e8590c; border-color: #e8590c; }
+#pick { margin: 0 0 10px; }
+.csbox { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin: 0 0 12px; }
+.csbox h4 { margin: 0 0 6px; font-size: 14px; }
+.csbox table td { padding: 4px 4px; font-size: 13px; white-space: normal; word-break: keep-all; vertical-align: top; }
+.csbox table td:first-child { white-space: nowrap; width: 1%; color: var(--sub); }
+.csbox table td:last-child { white-space: nowrap; width: 1%; }
+.csbox .pt { font-weight: bold; color: var(--up); } .csbox .pt.m { color: var(--dn); }
+.rep h3 { margin: 18px 0 8px; font-size: 16px; }
+.rep .sub { color: var(--sub); font-size: 12.5px; margin: 0 0 8px; }
+.rep tbody tr { cursor: default; } .rep tbody tr:hover { background: none; }
+.pos-below { font-size: 11px; color: var(--sub); margin-left: 3px; }
+tr.leadrow td { background: rgba(232, 89, 12, .06); }
+.mbox { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin: 0 0 12px; }
+.mbox h4 { margin: 0 0 6px; font-size: 14px; }
+.mbox svg { width: 100%; height: auto; display: block; }
+.mbox .ln { fill: none; stroke-width: 1.8; stroke-linejoin: round; }
+.mbox .ln.u { stroke: var(--up); } .mbox .ln.d { stroke: var(--dn); }
+.mbox .pc { stroke: var(--sub); stroke-dasharray: 3 3; stroke-width: 1; }
+.mbox .vl { stroke: var(--line); stroke-width: 1; }
+.mbox .band { fill: rgba(47, 158, 68, .13); }
+.mbox .amh { stroke: var(--sup); stroke-width: 1; stroke-dasharray: 4 2; }
+.mbox text { font-size: 10px; fill: var(--sub); }
+.mbox .chk { display: grid; grid-template-columns: 1fr; gap: 2px; font-size: 12.5px; margin-top: 6px; }
+.mbox .chk .y { color: var(--sup); font-weight: bold; } .mbox .chk .n { color: var(--sub); }
+</style></head><body><div class="wrap">
+<h1><span class="mg">明</span>의 당일 주도주 분석 <span class="dt">10/21(수)</span></h1>
+<div class="disc">⚠ 이 프로그램은 각종 보조지표를 종합해 분석한 참고용 정보일 뿐이며, 매매 추천이나 투자 권유가 아닙니다.</div>
+<div id="topcard"></div>
+<div class="top" id="top"></div>
+<div class="bar">
+  <div class="seg" id="seg"><button type="button" data-v="sec" class="on">업종별</button><button type="button" data-v="all">전체 목록</button></div>
+</div>
+<div id="pick"></div>
+<div id="list"></div>
+<div id="report"></div>
+</div>
+
+<div id="dv" aria-hidden="true"><div class="box" id="dbox"></div></div>
+
+<script>
+const DATA = [{"code": "281820", "name": "케이씨텍", "price": 100300, "score": 38, "phase": "추세 관찰", "sector": "의료/정밀기기", "previous_high": 134100, "previous_high_gap": -25.21, "wave_phase": "상승 국면", "wave_event": "중파동 유지중", "wave_small": "소파동 전환 (눌림 끝 반등)", "wave_info": "저점·고점이 높아지는 상승 국면 (약 3개월째, 시작 저점 대비 +82%)", "plan_info": "상방 저항 134,100원 (+33.7%, 전고점) · 하방 지지 97,525원 (-2.8%, 20일선)", "ma_support": "20/60선 지지 양호", "risk": "돌파 실패 (106,000원 재이탈), 기준봉 시가 108,500원 이탈", "inv_info": "외국인 5일 누적 순매도 -5.6만주 (당일 순매도) · 기관 5일 누적 순매수 +10.3만주 (당일 순매수)", "ind_comment": "추세 지표는 혼조, 단기 지표는 중립.", "sig_broken": "지지 이탈: 돌파 실패 (106,000원 재이탈), 기준봉 시가 108,500원 이탈", "trend": "강한 우상향", "credit_notch": 13, "inv_frg_streak": -1, "inv_ins_streak": 1, "grade": "C", "lx": {"chg": 12.7, "gap": 4.49, "tail": 3.09, "tval": 313.7, "tr": true, "pc": 89000, "vx": 1.1, "chg5": -10.29, "chg20": 37.77, "up": 1, "hi52": false, "upper": false, "nh": 1, "h52": -25.21, "tvx": 1.1, "res_list": [[101303, 1.0, "매물대"], [102100, 1.8, "전고점"], [110000, 9.7, "라운드 피겨"]], "res": 101303, "res_pct": 1.0, "res_kind": "매물대", "turn": 1.59, "mn": {"ok": false, "chk": [1, 1, 0, 1, 1], "amv": 51, "amg": 127, "amh": 103400, "pml": 98500, "pmh": 101100, "drop": -4.7, "pmv": 46, "c": [91600, 93500, 94900, 93400, 94900, 96300, 97800, 97100, 97300, 96600, 98000, 97700, 98000, 100300, 102100, 101900, 102200, 101900, 101600, 101800, 102500, 102300, 102400, 103000, 103100, 102700, 102200, 102500, 102600, 101400, 102500, 102100, 102600, 102000, 102300, 102300, 102500, 102300, 102900, 102900, 102500, 102000, 101800, 101600, 101600, 101700, 100900, 100700, 100400, 100600, 100400, 100000, 100600, 100300, 100000, 100300, 100200, 100500, 100800, 100200, 101000, 100300, 99900, 99900, 99900, 100500, 100700, 100500, 100600, 100300, 99600, 99600, 99900, 100200, 100000, 100000, 100000], "t": ["0900", "0905", "0910", "0915", "0920", "0925", "0930", "0935", "0940", "0945", "0950", "0955", "1000", "1005", "1010", "1015", "1020", "1025", "1030", "1035", "1040", "1045", "1050", "1055", "1100", "1105", "1110", "1115", "1120", "1125", "1130", "1135", "1140", "1145", "1150", "1155", "1200", "1205", "1210", "1215", "1220", "1225", "1230", "1235", "1240", "1245", "1250", "1255", "1300", "1305", "1310", "1315", "1320", "1325", "1330", "1335", "1340", "1345", "1350", "1355", "1400", "1405", "1410", "1415", "1420", "1425", "1430", "1435", "1440", "1445", "1450", "1455", "1500", "1505", "1510", "1515", "1530"], "hold": 3.0, "th": [40.0, 60.0], "near": true}, "mrank": 166, "th": []}, "st": {"streak": 1, "count": 1, "days": 4}, "sw": {"g": "C", "s": 42, "p": "추세 관찰"}, "csp": [["오후 지지", 12, "🟡 다섯 개 중 네 개 충족"]], "cs": 12, "cg": "D", "cg0": "D", "cap": "", "core": []}, {"code": "396300", "name": "HT로보틱스", "price": 11520, "score": 62, "phase": "돌파 진행", "sector": "금속", "previous_high": 11250, "previous_high_gap": 2.4, "wave_phase": "상승 국면", "wave_event": "중파동 유지중", "wave_small": "소파동 유지중 (상승 다리)", "wave_info": "저점·고점이 높아지는 상승 국면 (약 3개월째, 시작 저점 대비 +309%)", "plan_info": "상방 저항: 전고점 위 (가까운 저항 없음) · 하방 지지 6,652원 (-42.3%, 20일선)", "ma_support": "20/60선 지지 양호", "risk": "단기 과열 심함", "inv_info": "외국인 2일 연속 순매수 +57.2만주 · 기관 5일 누적 순매도 -1.7만주 (당일 순매도)", "absorb_info": "전고점 11,250원 매물 소화율 0% (소화 부족) · 고점 후 0일", "ind_comment": "추세 지표는 강세, 단기 과열 신호가 있어 추격은 조심. 돌파가 진행 중인 구간.", "sig_breakout": "전고점 11,250원 돌파 (거래량 2.8배) · 매물 부담", "sig_support": "지지 확인: 피보 38.2%", "trend": "강한 우상향", "credit_notch": 7, "inv_frg_streak": 2, "inv_ins_streak": -1, "grade": "B", "lx": {"chg": 15.55, "gap": 3.51, "tail": 1.48, "tval": 3407.1, "tr": true, "pc": 9970, "vx": 3.3, "chg5": 59.34, "chg20": 141.26, "up": 4, "hi52": true, "upper": false, "nh": 6, "h52": -1.45, "tvx": 5.0, "res_list": [[15000, 30.2, "라운드 피겨"]], "res": 15000, "res_pct": 30.2, "res_kind": "라운드 피겨", "turn": 117.44, "mn": {"ok": false, "chk": [1, 1, 0, 1, 1], "amv": 60, "amg": 121, "amh": 11690, "pml": 10800, "pmh": 11220, "drop": -7.6, "pmv": 21, "c": [9930, 10160, 10090, 10050, 10570, 11080, 10920, 10730, 10840, 10760, 10610, 10355, 10490, 10570, 10800, 10650, 10830, 10800, 10750, 10900, 11200, 11690, 11500, 11385, 11330, 11180, 11040, 10990, 10940, 11100, 11120, 11180, 11120, 11240, 11190, 11175, 11190, 11170, 11130, 11080, 11030, 11050, 11150, 11230, 11300, 11180, 11250, 11150, 11180, 11070, 11120, 11090, 11060, 11070, 10960, 10860, 10980, 10970, 10920, 10830, 10810, 10850, 10900, 10890, 10820, 10830, 10930, 10870, 10945, 11010, 10980, 10980, 11030, 11140, 11140, 11110, 11140], "t": ["0900", "0905", "0910", "0915", "0920", "0925", "0930", "0935", "0940", "0945", "0950", "0955", "1000", "1005", "1010", "1015", "1020", "1025", "1030", "1035", "1040", "1045", "1050", "1055", "1100", "1105", "1110", "1115", "1120", "1125", "1130", "1135", "1140", "1145", "1150", "1155", "1200", "1205", "1210", "1215", "1220", "1225", "1230", "1235", "1240", "1245", "1250", "1255", "1300", "1305", "1310", "1315", "1320", "1325", "1330", "1335", "1340", "1345", "1350", "1355", "1400", "1405", "1410", "1415", "1420", "1425", "1430", "1435", "1440", "1445", "1450", "1455", "1500", "1505", "1510", "1515", "1530"], "hold": 3.0, "th": [40.0, 60.0], "near": true}, "mrank": 17, "th": []}, "st": {"streak": 1, "count": 1, "days": 4}, "sw": {"g": "A", "s": 70, "p": "돌파 진행"}, "csp": [["오후 지지", 12, "🟡 다섯 개 중 네 개 충족"], ["평소 대비 쏠림", 12, "거래대금 평소의 5.0배 (직전 20일 평균 대비, 3배↑)"], ["덩치 대비 쏠림", 8, "회전율 117.4% (거래대금 ÷ 시가총액, 15%↑)"], ["신고가·주도력", 15, "신고가 행진 (최근 20일 신고가 6회)"], ["고가 마감", 3, "윗꼬리 1.5% (고가 대비)"]], "cs": 50, "cg": "B", "cg0": "B", "cap": "", "core": [], "top1": true, "top_nx": false, "jp": null, "frg": null}];
+const META = {"date": "2026-10-21", "cond": "주도", "report": {"table": [["A", {"n": 1, "o": 0.12, "h": 1.49, "c": -5.94, "win": 100}], ["C", {"n": 6, "o": -1.09, "h": 1.24, "c": -3.86, "win": 0}], ["D", {"n": 10, "o": -1.73, "h": 0.37, "c": -4.86, "win": 0}], ["전체", {"n": 17, "o": -1.39, "h": 0.74, "c": -4.57, "win": 6}]], "recent": [{"code": "340450", "name": "지씨지놈", "cg": "D", "cs": 22, "o": 0.0, "h": 0.2, "c": -2.18, "nd": "2026-10-21"}], "last": "2026-10-20", "days": 3}, "core": {"themes": [{"name": "폐기물처리", "chg": 8.79, "n": 7, "up": 5, "mine": 0, "top": [{"code": "011370", "name": "서한", "chg": 29.9}, {"code": "003010", "name": "혜인", "chg": 8.79}, {"code": "035890", "name": "서희건설", "chg": 0.98}], "fb": false}, {"name": "무선충전기관련주", "chg": 5.24, "n": 5, "up": 4, "mine": 0, "top": [{"code": "043590", "name": "웰킵스하이텍", "chg": 5.24}, {"code": "004710", "name": "한솔테크닉스", "chg": 4.13}, {"code": "089010", "name": "켐트로닉스", "chg": 3.41}], "fb": false}, {"name": "건설_해외건설", "chg": 3.92, "n": 5, "up": 5, "mine": 0, "top": [{"code": "047040", "name": "대우건설", "chg": 4.59}, {"code": "006360", "name": "GS건설", "chg": 4.42}, {"code": "028050", "name": "삼성E&A", "chg": 3.92}], "fb": false}, {"name": "반도체_후공정장비", "chg": 3.86, "n": 5, "up": 5, "mine": 0, "top": [{"code": "086390", "name": "유니테스트", "chg": 6.82}, {"code": "089890", "name": "코세스", "chg": 3.86}, {"code": "039030", "name": "이오테크닉스", "chg": 1.66}], "fb": false}, {"name": "반도체_후공정", "chg": 3.66, "n": 5, "up": 5, "mine": 0, "top": [{"code": "036540", "name": "SFA반도체", "chg": 6.3}, {"code": "033640", "name": "네패스", "chg": 3.66}, {"code": "067310", "name": "하나마이크론", "chg": 2.65}], "fb": false}], "market": true, "prev": "2026-10-20"}, "toprep": {"rows": [{"run_date": "2026-10-21", "code": "396300", "name": "HT로보틱스", "cs": 50, "cg": "B", "price": 11520.0, "nx": 0, "next_date": null, "x800": null, "x830": null, "x900": null, "x930": null, "rule": null, "rule_at": null, "res": 15000.0, "x_res": null, "res_hit": null, "x1000": null, "jp_name": null, "jp_conc": null, "jp_day": null, "jp_ok": null, "ty_weak": 0, "turn": 117.44, "frg_net": null, "frg_pct": null, "skip": false}, {"run_date": "2026-10-20", "code": "340450", "name": "지씨지놈", "cs": 22, "cg": "D", "price": 10090.0, "nx": 0, "next_date": "2026-10-21", "x800": null, "x830": null, "x900": -0.25, "x930": -2.53, "rule": -4.61, "rule_at": "10:00", "res": 10340.0, "x_res": -4.61, "res_hit": "10:00", "x1000": -4.61, "jp_name": null, "jp_conc": null, "jp_day": null, "jp_ok": null, "ty_weak": 0, "turn": 6.08, "frg_net": null, "frg_pct": null, "skip": false}, {"run_date": "2026-10-19", "code": "010580", "name": "에스엠벡셀", "cs": 60, "cg": "A", "price": 4040.0, "nx": 0, "next_date": "2026-10-20", "x800": null, "x830": null, "x900": -0.13, "x930": -4.09, "rule": -0.62, "rule_at": "10:00", "res": 5000.0, "x_res": -0.62, "res_hit": "10:00", "x1000": -0.62, "jp_name": null, "jp_conc": null, "jp_day": null, "jp_ok": null, "ty_weak": 0, "turn": 24.06, "frg_net": null, "frg_pct": null, "skip": false}], "sum": {"n": 2, "avg": -2.62, "win": 0, "total": -5.2, "rn": 2, "ravg": -2.62, "rwin": 0}}, "made": "2026-10-21 19:47"};
+const $ = (id) => document.getElementById(id);
+const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const num = (v, d = 0) => (v == null || isNaN(v)) ? "-" : Number(v).toLocaleString("ko-KR", { minimumFractionDigits: d, maximumFractionDigits: d });
+const pct = (v) => v == null ? "-" : `<span class="${v > 0 ? "u" : v < 0 ? "d" : ""}">${v > 0 ? "+" : ""}${Number(v).toFixed(1)}%</span>`;
+const G6 = ["S", "A", "B", "C", "D", "등외"];
+const gRank = (g) => { const i = G6.indexOf(g); return i < 0 ? 9 : i; };
+let view = "sec", sortKey = "cs";
+
+const KEYF = {
+    cs: (r) => -(r.cs ?? 0), tvx: (r) => -(r.lx.tvx ?? 0), turn: (r) => -(r.lx.turn ?? 0), mrank: (r) => r.lx.mrank ?? 9999, tval: (r) => -(r.lx.tval ?? 0), chg: (r) => -(r.lx.chg ?? -99), vx: (r) => -(r.lx.vx ?? 0),
+    grade: (r) => gRank(r.grade) * 1000 + (r.credit_notch ?? 99) * 10 - (r.score ?? 0) / 100,
+    st: (r) => -(r.st.streak * 1000 + (r.lx.tval ?? 0) / 1e6),
+};
+const sorted = (arr) => [...arr].sort((a, b) => KEYF[sortKey](a) - KEYF[sortKey](b) || (b.lx.tval ?? 0) - (a.lx.tval ?? 0));
+
+// 대장(r.lead = "theme", r.lead_rank 1·2·3): 핵심 테마 안 등락률 순 - 파이썬(mark_leaders)에서 정함
+// 일봉 위치: 신고가(250일 고가 경신) / 전고점 돌파(최근 60일 고점 위) / 전고점 아래
+const posOf = (r) => r.lx.hi52 ? "hi" : (r.previous_high_gap ?? -1) > 0 ? "brk" : "below";
+const holdOf = (r) => !!(r.lx.mn && r.lx.mn.ok);
+const nearOf = (r) => !!(r.lx.mn && r.lx.mn.near);
+const runOf = (r) => !!r.lx.hi52 && (r.lx.nh || 0) >= 3;
+const nearHiOf = (r) => !r.lx.hi52 && (r.lx.nh || 0) >= 3 && r.lx.h52 != null && r.lx.h52 >= -12;
+const CORE = META.core || { themes: [] };
+const isCore = (r) => !!(r.core && r.core.length > 0);
+const isTop = (r) => r.lead === "theme" && (r.lead_rank || 1) === 1;
+let themePick = "";
+function posMatch(r, v) {
+    if (!v) return true;
+    if (v === "lead") return !!r.lead;
+    if (v === "hold") return holdOf(r);
+    if (v === "near") return holdOf(r) || nearOf(r);
+    if (v === "core") return isCore(r);
+    if (v === "run") return runOf(r);
+    if (v === "cont") return r.cont === "lead";
+    if (v === "nearhi") return nearHiOf(r);
+    return posOf(r) === v;
+}
+function badges(r) {
+    let s = "";
+    if (r.top1) s += '<span class="ic">👑</span>';      // (10/18) 아이콘만 (설명 없음)
+    if (isTop(r)) s += '<span class="ic">🏅</span>';
+    else if (r.lead === "theme") s += `<span class="bd lead" title="핵심 테마 '${esc(r.lead_of || "")}' 안에서 ${r.lead_rank}번째로 강함 (등락률 순)">테마 ${r.lead_rank}번째</span>`;
+    if (r.cont === "lead") s += `<span class="bd cont" title="어제 ${esc(r.prev_txt || "")} → 오늘도 등장·상승">🔁 연속 주도</span>`;
+    if (r.lx.upper) s += `<span class="ic">${IC_UP}</span>`;
+    const p = posOf(r);
+    if (runOf(r)) s += `<span class="ic">${IC_RUN}</span>`;
+    else if (p === "hi") s += '<span class="bd hi" title="최근 250거래일 고가를 넘음">신고가</span>';
+    else if (nearHiOf(r)) s += `<span class="bd hi" title="최근 20일 신고가 ${r.lx.nh}회 · 52주 고점 대비 ${Number(r.lx.h52).toFixed(1)}%">신고가권</span>`;
+    else if (p === "brk") s += '<span class="bd brk" title="최근 60거래일 고점(전고점)을 넘어서 마감">전고점 돌파</span>';
+    else if (r.previous_high_gap != null) s += `<span class="pos-below" title="전고점 ${num(r.previous_high)}원">전고점 ${Number(r.previous_high_gap).toFixed(1)}%</span>`;
+    if (holdOf(r)) s += '<span class="ic">👌</span>';
+    else if (nearOf(r)) s += '<span class="bd near" title="오후 지지 기준 다섯 개 중 네 개 충족">🟡 거의</span>';
+    if (r.st.streak >= 2 && r.cont !== "lead") s += `<span class="bd st" title="이 조건식에 ${r.st.streak}일 연속 등장">${r.st.streak}일 연속</span>`;
+    if (r.warn_state) s += `<span class="bd w" title="${esc(r.warn_state)}">⚠</span>`;
+    return s;
+}
+function rowHtml(r) {
+    return `<tr data-c="${esc(r.code)}"${isTop(r) ? ' class="leadrow"' : ""}>
+        <td><b>${esc(r.name)}</b>${badges(r)}<br><small>${esc(r.code)}${view === "all" && r.sector ? " · " + esc(r.sector) : ""}</small></td>
+        <td>${num(r.price)}<br>${pct(r.lx.chg)}</td>
+        <td>${num(r.lx.tval)}<small>억${r.lx.tr === false ? "(추정)" : ""}</small>${r.lx.mrank ? `<br><small class="rk">시장 ${r.lx.mrank}위</small>` : ""}</td>
+        <td>${r.lx.tvx == null ? "-" : num(r.lx.tvx, 1) + "<small>배</small>"}${r.lx.turn != null ? `<br><small>회전 ${num(r.lx.turn, 1)}%</small>` : ""}</td>
+        <td><span class="g ${esc(r.cg)}">${esc(r.cg || "-")}</span> <small>${r.cs ?? "-"}</small></td>
+        <td class="hm">${esc(r.phase || "")}</td></tr>`;
+}
+const THEAD = `<thead><tr><th data-s="name">종목</th><th data-s="chg">현재가·등락</th><th data-s="tval">거래대금</th>
+    <th data-s="tvx">평소 대비</th><th data-s="cs">종가 등급</th><th class="hm">단계</th></tr></thead>`;
+
+function groups(rows) {
+    const m = {};
+    rows.forEach((r) => { const k = r.sector || "업종 정보 없음"; (m[k] = m[k] || []).push(r); });
+    return Object.entries(m).map(([sec, list]) => ({
+        sec, list, n: list.length,
+        tval: list.reduce((s, r) => s + (r.lx.tval || 0), 0),
+        avg: list.reduce((s, r) => s + (r.lx.chg || 0), 0) / list.length,
+    })).sort((a, b) => b.n - a.n || b.tval - a.tval);
+}
+
+function render() {
+    const q = "", pv = "";
+    const rows = DATA.filter((r) => (!q || (r.name || "").toLowerCase().includes(q) || (r.code || "").includes(q))
+        && posMatch(r, pv) && (!themePick || (r.lx.th || []).includes(themePick) || r.sector === themePick));
+    $("pick").innerHTML = themePick ? `<button type="button" class="tchip on" id="unpick">🔥 ${esc(themePick)} 종목만 보는 중 ✕</button>` : "";
+    if (!DATA.length) {
+        $("list").innerHTML = `<div class="empty">오늘은 조건식 '${esc(META.cond)}'에 걸린 종목이 없어요.<br><small>시장 전체가 약한 날엔 하나도 안 나올 수 있어요.</small></div>`;
+        return;
+    }
+    if (!rows.length) { $("list").innerHTML = `<div class="empty">${q ? `"${esc(q)}"에 맞는 ` : "선택한 표시에 맞는 "}종목이 없어요.</div>`; return; }
+    if (view === "all") {
+        $("list").innerHTML = `<div class="card"><table>${THEAD}<tbody>${sorted(rows).map(rowHtml).join("")}</tbody></table></div>`;
+    } else {
+        $("list").innerHTML = groups(rows).map((g) => `<div class="card">
+            <div class="chead"><h3>${esc(g.sec)}</h3><span class="s">${g.n}종목 · 거래대금 합 ${num(g.tval)}억 · 평균 ${pct(g.avg)}</span></div>
+            <table>${THEAD}<tbody>${[...sorted(g.list.filter(isTop)), ...sorted(g.list.filter((r) => !isTop(r)))].map(rowHtml).join("")}</tbody></table></div>`).join("");
+    }
+}
+function renderTop() {
+    let h = "";
+    const th = CORE.themes || [];
+    const sg = (v) => `${v > 0 ? "+" : ""}${Number(v).toFixed(1)}%`;
+    if (th.length) h += `<div class="toprow"><span class="lab">🔥 오늘의 핵심 테마${CORE.market ? "" : " (목록 기준)"}</span>` + th.map((t) => {
+        const tip = CORE.market ? `평균 ${sg(t.chg)} · 상승 ${t.up}/${t.n}종목 · 대장${t.fb ? "(목록 안)" : ""} ` + ((t.top || []).map((m) => `${m.name} ${sg(m.chg)}`).join(", ") || "-")
+            : `목록 안 ${t.n}종목 · 평균 ${sg(t.chg)}`;
+        const info = CORE.market ? `<small>${sg(t.chg)} · 상승 ${t.up}/${t.n}</small>` : `<small>${sg(t.chg)}</small>`;
+        return `<button type="button" class="tchip core${t.mine ? "" : " none"}" data-pick="${esc(t.name)}" title="${esc(tip)}">${esc(t.name)} ${info} <b>${t.mine || 0}</b></button>`;
+    }).join("") + `</div>`;
+    else h += `<div class="toprow"><span class="lab">🔥 오늘의 핵심 테마</span><small class="rk">조건(종목 5~40개 · 상승 60%↑)에 맞는 테마가 없어요</small></div>`;
+    const lead = th.filter((t) => (t.top || []).length);
+    if (lead.length) h += `<div class="toprow"><span class="lab">🏅 테마 대장</span>` + lead.map((t) => {
+        const m = t.top[0], mine = DATA.some((r) => r.code === m.code);
+        const rs = m.res ? ` <small>· ${num(m.res)}원 ${pct(m.res_pct)}</small>${m.res_pct < 2 ? ' <b class="rwarn">⚠</b>' : ""}` : "";
+        return `<span class="tl${mine ? " mine" : ""}">${esc(m.name)} <b>${sg(m.chg)}</b> <small>${esc(t.name)}${t.fb ? " · 목록 안" : ""}</small>${rs}</span>`;
+    }).join("") + `</div>`;
+    const gs = groups(DATA).filter((g) => g.sec !== "업종 정보 없음").slice(0, 5);
+    if (gs.length) h += `<div class="toprow">` + gs.map((g) =>
+        `<button type="button" class="tchip" data-sec="${esc(g.sec)}">${esc(g.sec)} <b>${g.n}</b></button>`).join("") + `</div>`;
+    $("top").innerHTML = h;
+}
+
+// (10/18) 아이콘: 상한가 = 빨간 곧은 위 화살표, 신고가 행진 = 빨간 지그재그 상승 화살표
+const IC_UP = '<svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M8 14V3M3.5 7.5 8 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const IC_RUN = '<svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M1.5 13.5 5.5 8.5 8.5 11 14 3.5M9.5 3.3H14V7.8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+// ---- 상세 ----
+function sum3(r) {
+    const flow = [r.wave_phase, r.wave_event, r.wave_small].filter(Boolean).map(esc).join(" · ") || esc(r.trend || "-");
+    let pos = esc(r.plan_info || "-");
+    const ma = r.ma_support || "";
+    if (/20선[^·]*이탈/.test(ma)) pos = `<b class="${/소폭/.test(ma) ? "" : "d"}">${/소폭/.test(ma) ? "20일선 소폭 이탈" : "⚠ 20일선 이탈"}</b> · ` + pos;
+    const sigs = [["sig_breakout", "up"], ["sig_box", "up"], ["sig_ma5", "up"], ["sig_support", "sup"], ["sig_broken", "dn"]]
+        .filter(([k]) => r[k]).map(([k, c]) => `<span class="sig ${c}">${esc(r[k])}</span>`);
+    const risk = r.risk && r.risk !== "특별한 위험 없음" ? `주의: ${esc(r.risk)}` : "";
+    const sig = sigs.join("") + (risk ? (sigs.length ? " · " : "") + risk : "") || "눈에 띄는 신호·주의 없음";
+    return `<div class="sum3"><div class="k">🌊 흐름</div><div class="v">${flow}</div>
+        <div class="k">📍 위치</div><div class="v">${pos}</div>
+        <div class="k">⚡ 신호·주의</div><div class="v">${sig}</div></div>`;
+}
+// (10/16) 하루 흐름 그래프 (5분봉 종가): 전일 종가 점선, 11시·13시 구분선, 오전 고점과 -3% 띠
+function minuteHtml(r) {
+    const M = r.lx.mn;
+    if (!M || !Array.isArray(M.c) || M.c.length < 2) return "";
+    const W = 360, H = 150, P = { l: 4, r: 4, t: 14, b: 16 };
+    const lowBand = M.amh * (1 - M.hold / 100);
+    const vals = [...M.c, r.lx.pc || M.c[0], M.amh, lowBand];
+    const mn = Math.min(...vals), mx = Math.max(...vals);
+    const x = (i) => P.l + i / (M.c.length - 1) * (W - P.l - P.r);
+    const y = (v) => P.t + (1 - (v - mn) / ((mx - mn) || 1)) * (H - P.t - P.b);
+    const iAm = M.t.findIndex((t) => t >= "1100"), iPm = M.t.findIndex((t) => t >= "1300");
+    const up = M.c[M.c.length - 1] >= (r.lx.pc || 0);
+    const path = M.c.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${y(v).toFixed(1)}`).join("");
+    const vline = (i, lab) => i > 0 ? `<line class="vl" x1="${x(i)}" x2="${x(i)}" y1="${P.t}" y2="${H - P.b}"/>
+        <text x="${x(i) + 3}" y="${H - 5}">${lab}</text>` : "";
+    const band = iPm > 0 ? `<rect class="band" x="${x(iPm)}" y="${y(M.amh)}" width="${W - P.r - x(iPm)}" height="${Math.max(1, y(lowBand) - y(M.amh))}"/>` : "";
+    const svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="오늘 5분봉 가격 흐름">
+        ${band}
+        <line class="pc" x1="${P.l}" x2="${W - P.r}" y1="${y(r.lx.pc)}" y2="${y(r.lx.pc)}"/>
+        <line class="amh" x1="${P.l}" x2="${W - P.r}" y1="${y(M.amh)}" y2="${y(M.amh)}"/>
+        ${vline(iAm, "11:00")}${vline(iPm, "13:00")}
+        <path class="ln ${up ? "u" : "d"}" d="${path}"/>
+        <text x="${P.l}" y="${H - 5}">09:00</text><text x="${W - P.r}" y="${H - 5}" text-anchor="end">15:30</text>
+        <text x="${P.l + 2}" y="${Math.max(11, y(M.amh) - 3)}">오전 고점 ${num(M.amh)}</text>
+        <text x="${W - P.r}" y="${Math.min(H - P.b - 2, y(r.lx.pc) + 12)}" text-anchor="end">전일 종가</text>
+    </svg>`;
+    const c = M.chk || [];
+    const item = (ok, t) => `<div class="${ok ? "y" : "n"}">${ok ? "✔" : "✕"} ${t}</div>`;
+    const th = M.th || [50, 70];
+    const tag = M.ok ? '<span class="bd hold">🟢 오후 지지</span>' : M.near ? '<span class="bd near">🟡 거의 (4/5)</span>' : "";
+    return `<div class="mbox"><h4>⏱ 오늘 흐름 (5분봉) ${tag}</h4>${svg}
+        <div class="chk">
+            ${item(c[0], `오전(11시 전) 거래량이 하루의 ${M.amv}% (기준 ${th[0]}% 이상)`)}
+            ${item(c[1], `11시까지 하루 상승분의 ${M.amg}%를 오름 (기준 ${th[1]}% 이상)`)}
+            ${item(c[2], `오후 최저가가 오전 고점 대비 ${M.drop}% (기준 -${M.hold}% 안쪽) · 오후 범위 ${num(M.pml)}~${num(M.pmh)}원`)}
+            ${item(c[3], `오후 봉당 거래량이 오전의 ${M.pmv}% (기준 100% 미만 = 조용한 횡보)`)}
+            ${item(c[4], "종가가 오후 가격대의 위쪽 절반")}
+        </div></div>`;
+}
+function csHtml(r) {
+    const parts = r.csp || [];
+    const rows = parts.map(([k, pt, t]) => `<tr><td style="text-align:left">${esc(k)}</td><td style="text-align:left">${esc(t)}</td>
+        <td class="pt${pt < 0 ? " m" : ""}">${pt > 0 ? "+" : ""}${pt}</td></tr>`).join("");
+    return `<div class="csbox"><h4>🎯 종가 점수 ${r.cs ?? 0}점 · <span class="g ${esc(r.cg)}">${esc(r.cg || "-")}</span></h4>
+        ${rows ? `<table><tbody>${rows}</tbody></table>` : '<p class="sec">점수를 받은 항목이 없어요.</p>'}
+        ${r.cap ? `<div class="sec capn">⛔ 등급 제한: 점수로는 ${esc(r.cg0)} · ${esc(r.cap)} → <b>${esc(r.cg)}</b></div>` : ""}
+        <div class="sec" style="margin:6px 0 0;color:var(--sub);font-size:12px">배점: 오후 지지 25 · 평소 대비 쏠림 20 · 핵심 테마 15 · 신고가·주도력 15 · 전일 연속성 10 · 테마 대장 10 · 고가 마감 5 (투자경고·위험 -15) · S는 🟢, A는 🟢·🟡 필수</div></div>`;
+}
+function leadText(r) {
+    const th = (CORE.themes || []).find((x) => x.name === r.lead_of);
+    const tag = CORE.market && !(th && th.fb) ? "전체 구성 종목" : "목록 안 종목";
+    if (isTop(r)) return `🏅 핵심 테마 '${esc(r.lead_of || "")}' ${tag} 중 오늘 등락률이 가장 높음`;
+    if (r.lead === "theme") return `'${esc(r.lead_of || "")}' ${tag} 중 ${r.lead_rank}번째로 강함 (등락률 순)`;
+    const t = (CORE.themes || []).find((x) => (r.core || []).includes(x.name) && (x.top || []).length);
+    return t ? `'${esc(t.name)}' 대장은 ${esc(t.top[0].name)} (${t.top[0].chg > 0 ? "+" : ""}${Number(t.top[0].chg).toFixed(1)}%) · 이 종목은 후발` : "";
+}
+function posText(r) {
+    const p = posOf(r);
+    if (p === "hi") return "<b class='u'>신고가</b> (250일 고가 경신)";
+    if (nearHiOf(r)) return `<b class='u'>신고가권</b> (오늘은 아님 · 전고점 ${num(r.previous_high)}원 ${pct(r.previous_high_gap)})`;
+    if (p === "brk") return `<b style="color:#f08c00">전고점 돌파</b> (${num(r.previous_high)}원 위 ${pct(r.previous_high_gap)})`;
+    return r.previous_high ? `전고점 ${num(r.previous_high)}원 아래 ${pct(r.previous_high_gap)}` : "-";
+}
+const invHtml = (t) => esc(t).replace(/순매수/g, '<span class="inv-b">순매수</span>').replace(/순매도/g, '<span class="inv-s">순매도</span>');
+const isMobile = () => window.matchMedia("(max-width: 700px)").matches;
+
+function show(code) {
+    const r = DATA.find((x) => x.code === code);
+    if (!r) return;
+    const L = r.lx, url = isMobile() ? `https://m.stock.naver.com/fchart/domestic/stock/${encodeURIComponent(r.code)}`
+        : `https://finance.naver.com/item/fchart.naver?code=${encodeURIComponent(r.code)}`;
+    const line = (t, v) => v ? `<div class="sec"><b class="t">${t}</b>${v}</div>` : "";
+    $("dbox").innerHTML = `
+        <div class="dh"><h2>${esc(r.name)}${badges(r)} <small>${esc(r.code)}</small></h2>
+            <button type="button" class="xbtn" id="dclose">✕ 닫기</button></div>
+        <div class="sub2">${r.sector ? esc(r.sector) : ""}<a class="chart" href="${url}" target="_blank" rel="noopener noreferrer">📈 차트 보기</a></div>
+        <div class="kv">
+            <div><span class="kl">종가 · 등락</span><b>${num(r.price)}</b> ${pct(L.chg)}</div>
+            <div><span class="kl">거래대금${L.tr === false ? "(추정)" : ""}</span><b>${num(L.tval)}억</b></div>
+            <div><span class="kl">평소 대비 · 회전율</span><b>${L.tvx == null ? "-" : num(L.tvx, 1) + "배"}</b> · ${L.turn == null ? "-" : num(L.turn, 1) + "%"}</div>
+            <div><span class="kl">종가 등급 · 점수</span><b>${esc(r.cg || "-")}</b> ${r.cs ?? "-"}점</div>
+            <div><span class="kl">5일 · 20일</span>${pct(L.chg5)} · ${pct(L.chg20)}</div>
+            <div><span class="kl">시가 갭 · 윗꼬리</span>${pct(L.gap)} · ${L.tail == null ? "-" : num(L.tail, 1) + "%"}</div>
+            <div><span class="kl">거래량 배수 · 연속 상승</span><b>${L.vx == null ? "-" : num(L.vx, 1) + "배"}</b> · ${L.up ?? 0}일</div>
+            <div><span class="kl">연속 등장</span><b>${r.st.streak}일</b> <small>(최근 ${r.st.days}회 중 ${r.st.count}회)</small></div>
+        </div>
+        ${r.top1 ? `<div class="tc"><div class="sell">${resText(r)}</div>${jpText(r)}${frgText(r)}${typeText(r)}</div>` : `<div class="dres">${resText(r)}</div>`}
+        ${csHtml(r)}
+        ${sum3(r)}
+        ${line("거래대금 순위", (r.lx.mrank ? `코스피·코스닥 전체 ${r.lx.mrank}위` : "시장 전체 300위 밖 (또는 순위를 못 받음)") + ' <small style="color:var(--sub)">(참고 · 점수 없음)</small>')}
+        ${line("테마", (r.lx.th || []).length ? r.lx.th.map((t) => (r.core || []).includes(t) ? `<b class="u">🔥 ${esc(t)}</b>` : esc(t)).join(" · ") : "")}
+        ${line("일봉 위치", posText(r) + (r.lx.nh ? ` · 최근 20일 신고가 ${r.lx.nh}회` : "") + (r.lx.h52 != null ? ` · 52주 고가 대비 ${pct(r.lx.h52)}` : ""))}
+        ${line("전일", r.cont === "lead" ? `🔁 연속 주도 · 어제 ${esc(r.prev_txt || "")} → 오늘도 등장·상승` : r.cont === "seen" ? `어제도 등장 (${esc(r.prev_txt || "")})` : "")}
+        ${line("테마 대장", leadText(r))}
+        ${minuteHtml(r)}
+        ${line("스윙 등급", `${esc(r.grade || "-")} · ${r.score ?? "-"}점 · ${esc(r.phase || "")} <small style="color:var(--sub)">(참고: 스윙 자리 평가)</small>`)}
+        ${line("스윙운용", r.sw ? `오늘 ${esc(r.sw.g)} 등급 · ${r.sw.s}점 · ${esc(r.sw.p)}` : "")}
+        ${line("외국인·기관", r.inv_info ? invHtml(r.inv_info) : "")}
+        ${line("중파동", esc(r.wave_info || ""))}
+        ${line("이평선", esc(r.ma_support || ""))}
+        ${line("박스권", esc(r.box_info || ""))}
+        ${line("전고점 매물", esc(r.absorb_info || ""))}
+        ${line("보조지표", esc(r.ind_comment || ""))}
+        ${line("등급 제한", esc(r.cap_note || ""))}
+        ${line("종목 상태", r.warn_state ? "⚠ " + esc(r.warn_state) : "")}
+        <p class="disc" style="margin-top:6px">⚠ 참고용 정보이며 매매 추천이나 투자 권유가 아닙니다.</p>`;
+    $("dv").classList.add("on");
+    document.body.style.overflow = "hidden";
+    history.pushState({ dv: 1 }, "", "#" + r.code);
+    $("dclose").addEventListener("click", () => history.back());
+}
+function closeDv() { $("dv").classList.remove("on"); document.body.style.overflow = ""; }
+window.addEventListener("popstate", () => { if ($("dv").classList.contains("on")) closeDv(); });
+$("dv").addEventListener("click", (e) => { if (e.target === $("dv")) history.back(); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && $("dv").classList.contains("on")) history.back(); });
+
+$("list").addEventListener("click", (e) => {
+    const th = e.target.closest("th[data-s]");
+    if (th) { if (th.dataset.s !== "name") { sortKey = th.dataset.s; render(); } return; }
+    const tr = e.target.closest("tr[data-c]");
+    if (tr) show(tr.dataset.c);
+});
+$("seg").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-v]");
+    if (!b) return;
+    view = b.dataset.v;
+    document.querySelectorAll("#seg button").forEach((x) => x.classList.toggle("on", x === b));
+    render();
+});
+$("pick").addEventListener("click", (e) => { if (e.target.closest("#unpick")) { themePick = ""; render(); } });
+$("top").addEventListener("click", (e) => {
+    const t = e.target.closest("[data-pick]");
+    if (t) {
+        themePick = themePick === t.dataset.pick ? "" : t.dataset.pick;
+        view = "all";
+        document.querySelectorAll("#seg button").forEach((x) => x.classList.toggle("on", x.dataset.v === "all"));
+        render();
+        return;
+    }
+    const b = e.target.closest("[data-sec]");
+    if (!b) return;
+    themePick = "";
+    view = "sec";
+    document.querySelectorAll("#seg button").forEach((x) => x.classList.toggle("on", x.dataset.v === "sec"));
+    render();
+    const h = [...document.querySelectorAll(".chead h3")].find((x) => x.textContent === b.dataset.sec);
+    if (h) h.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+// (10/16) 다음 날 성적표
+function sellText(nx) {   // (10/18) 플랜: 저항 지정가, 못 닿으면 10:00 (5분봉 162일 검증)
+    return "다음 날 <b>저항가 지정가</b> → 못 닿으면 <b>10:00</b>" + (nx === true ? " <small>(넥스트레이드 종목)</small>" : "");
+}
+function resText(r) {
+    const L = r.lx || {};
+    if (!L.res) return "위쪽 저항: <b>없음</b> (종가 +1% 위에 전고점·이평선·매물대·라운드 피겨가 없음) → 시간 기준으로 매도";
+    const more = (L.res_list || []).slice(1).map((x) => `${num(x[0])}원 ${pct(x[1])} ${esc(x[2])}`).join(" · ");
+    const warn = L.res_pct != null && L.res_pct < 2 ? ` <b class="rwarn">⚠ 저항 +2% 미만</b>` : "";   // (10/17) 검증: +1~2% 저항은 평균 손해
+    return `위쪽 저항: <b>${num(L.res)}원</b> (${pct(L.res_pct)}, <b>${esc(L.res_kind || "")}</b>)${warn}`
+        + (more ? `<br><small style="color:var(--sub)">그 위 저항: ${more}</small>` : "");
+}
+// (10/18) 반원 게이지 (지나_종목조회와 같은 모양) - val 0~100, cuts = [왼쪽 구간 끝, 오른쪽 구간 시작]
+function gaugeSvg(val, cuts, ends, ticks) {
+    const W = 150, R = W / 2 - 9, cx = W / 2, cy = W / 2 + 2, sw = 13;
+    const pt = (v, r) => { const a = Math.PI * (1 - v / 100); return [cx + r * Math.cos(a), cy - r * Math.sin(a)]; };
+    const arc = (a, b, cls) => {
+        const [x1, y1] = pt(a, R), [x2, y2] = pt(b, R);
+        return `<path class="${cls}" d="M${x1.toFixed(1)} ${y1.toFixed(1)} A${R} ${R} 0 0 1 ${x2.toFixed(1)} ${y2.toFixed(1)}" stroke-width="${sw}" fill="none"/>`;
+    };
+    const v = Math.max(0, Math.min(100, val));
+    const [nx, ny] = pt(v, R - sw / 2 - 6);
+    // (10/18) 눈금: ticks = [[위치 0~100, 굵게?], ...] - 띠 안쪽에 짧은 선, 굵은 것(가운데 기준선)은 길고 진하게
+    const tk = (ticks || []).map(([p, big]) => {
+        const [x1, y1] = pt(p, R - sw / 2 - 1), [x2, y2] = pt(p, R - sw / 2 - (big ? 10 : 5));
+        return `<line class="gz-tick${big ? " big" : ""}" x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke-linecap="round"/>`;
+    }).join("");
+    return `<svg viewBox="0 0 ${W} ${cy + 14}" width="${W}" height="${cy + 14}" aria-hidden="true">
+        ${arc(0, cuts[0], "gz-lo")}${arc(cuts[0], cuts[1], "gz-mid")}${arc(cuts[1], 100, "gz-hi")}${tk}
+        <line class="gz-needle" x1="${cx}" y1="${cy}" x2="${nx.toFixed(1)}" y2="${ny.toFixed(1)}" stroke-width="3" stroke-linecap="round"/>
+        <circle class="gz-hub" cx="${cx}" cy="${cy}" r="5"/>
+        <text class="gz-end lo" x="4" y="${cy + 12}">${ends[0]}</text>
+        <text class="gz-end hi" x="${W - 4}" y="${cy + 12}" text-anchor="end">${ends[1]}</text>
+    </svg>`;
+}
+const GZ_MAX = 30, GZ_WEAK = 8, GZ_STRONG = 20;   // 주도 종목 수: 8 미만 약세 · 20 이상 강세 (10/18 검증)
+function marketGauge() {
+    const n = DATA.length;
+    const [lab, cls, tip] = n < GZ_WEAK ? ["약세", "d", "금액 줄이기"] : n >= GZ_STRONG ? ["강세", "u", ""] : ["보통", "", ""];
+    return `<div class="gz" title="조건식 '${esc(META.cond)}'에 걸린 종목 수 · 8개 미만 약세(검증 승률 50%·평균 +1.7%) · 20개 이상 강세">
+        <div class="gz-t">주도 ${n}종목</div>
+        ${gaugeSvg(Math.min(n, GZ_MAX) / GZ_MAX * 100, [GZ_WEAK / GZ_MAX * 100, GZ_STRONG / GZ_MAX * 100], ["약세", "강세"],
+            [0, 5, 10, 15, 20, 25, 30].map((k) => [k / GZ_MAX * 100, k === GZ_MAX / 2]))}
+        <div class="gz-v ${cls}">${lab}</div>${tip ? `<div class="gz-s">${tip}</div>` : ""}</div>`;
+}
+// (10/18) 원탑 주요거래원·유형 (표시만). ✓ = 집중도 낮음+오늘 매수 또는 오늘 매수 5~10% / ⚠ = 2만원 이상+회전율 30% 미만
+const TYPE_PRICE = 20000, TYPE_TURN = 30;
+function jpText(t) {
+    const J = t.jp;
+    if (!J) return "";
+    const lvl = J.lvl ? ` ${J.lvl}` : "";
+    let day;
+    if (!J.today) day = `<small>오늘 자료 없음</small>`;
+    else if ((J.day_net || 0) > 0) day = `오늘 순매수 거래량의 ${J.day_pct ?? "-"}%`;
+    else if ((J.day_net || 0) < 0) day = `<span class="d">오늘 순매도 ${J.day_pct == null ? "-" : Math.abs(J.day_pct)}%</span>`;
+    else day = "오늘 거래 없음";
+    return `<div class="jp">주요거래원: <b>${esc(J.name)}</b>${J.kind ? ` <small>${esc(J.kind)}</small>` : ""} · 집중도 ${J.conc ?? "-"}%${lvl} · ${day}${J.ok ? ' <span class="okm">✓</span>' : ""}</div>`;
+}
+function frgText(t) {   // (10/18) 당일 외국계 창구 추정 (키움 OPT10040, 상위 거래원 기준)
+    const F = t.frg;
+    if (!F) return "";
+    const n = F.net || 0, man = (v) => (Math.abs(v) / 10000).toFixed(1) + "만";
+    const p = F.pct != null ? ` (거래량의 ${Math.abs(F.pct)}%)` : "";
+    const body = n > 0 ? `순매수 ${num(n)}주${p}` : n < 0 ? `<span class="d">순매도 ${num(-n)}주${p}</span>` : "거래 없음";
+    return `<div class="jp">외국계: ${body} <small>매도 ${man(F.sell)} · 매수 ${man(F.buy)}</small></div>`;
+}
+function typeText(t) {
+    const turn = (t.lx || {}).turn, price = t.price;
+    if (!price) return "";
+    const weak = price >= TYPE_PRICE && (turn || 0) < TYPE_TURN;
+    const good = price < TYPE_PRICE || (turn || 0) >= TYPE_TURN;
+    return `<div class="jp">유형: 주가 ${num(price)}원 · 회전율 ${turn ?? "-"}%`
+        + (weak ? ' <b class="rwarn">⚠ 약한 유형</b>' : good ? ' <span class="okm">✓</span>' : "") + `</div>`;
+}
+function renderTopCard() {
+    const t = DATA.find((r) => r.top1);
+    const info = t ? `<div class="tinfo"><div class="h">
+        <b class="nm" data-c="${esc(t.code)}">${esc(t.name)}</b><small>${esc(t.code)}</small>
+        <span class="g ${esc(t.cg)}">${esc(t.cg || "-")}</span> <small>종가 점수 ${t.cs ?? "-"} · ${pct(t.lx.chg)}</small></div>
+        <div class="sell">${resText(t)}</div>${jpText(t)}${frgText(t)}${typeText(t)}</div>`
+        : `<div class="tinfo"><div class="sell">오늘은 원탑 종목이 없어요.</div></div>`;
+    $("topcard").innerHTML = `<div class="tc tg">${marketGauge()}${info}</div>`;
+    if (t) $("topcard").querySelector(".nm").addEventListener("click", () => show(t.code));
+}
+function renderTopRep() {
+    const T = META.toprep;
+    if (!T || !T.rows || !T.rows.length) return "";
+    const S = T.sum;
+    const head = S ? `<p class="sub">결과가 나온 ${S.n}일 · 저항·10시 매도 거래당 평균 ${pct(S.avg)} · 이익 본 날 ${S.win}% · 누적 ${pct(S.total)}`
+        + (S.rn ? ` · 쉬는 날 뺀 ${S.rn}일 평균 ${pct(S.ravg)} · 이익 본 날 ${S.rwin}%` : "") + ` (비용 0.25% 뺀 값)</p>`
+        : `<p class="sub">다음 날 다시 실행하면 오늘 1등의 결과가 채워져요.</p>`;
+    const rows = T.rows.map((x) => `<tr><td>${esc(x.run_date)}</td><td><b>${esc(x.name || x.code)}</b><br><small>${esc(x.code)}</small></td>
+        <td><span class="g ${esc(x.cg)}">${esc(x.cg || "-")}</span> <small>${x.cs ?? "-"}</small></td>
+        <td>${x.rule_at ? esc(x.rule_at) : "저항·10:00 예정"}${x.skip ? ' <b class="rwarn">쉬는 날</b>' : ""}</td><td>${x.rule == null ? "-" : pct(x.rule)}</td>
+        <td>${x.res ? num(x.res) + "원" : "-"}</td><td>${pct(x.x930)}</td><td>${pct(x.x1000)}</td>
+        <td>${x.jp_ok ? '<span class="okm">✓</span>' : ""}${x.ty_weak ? ' <b class="rwarn">⚠</b>' : ""}</td></tr>`).join("");
+    return `<div class="rep"><h3>🥇 1등 실전 기록</h3>${head}
+        <div class="card"><table><thead><tr><th>날짜</th><th>1등</th><th>종가 등급</th><th>매도</th><th>결과</th><th>저항</th><th>9:30</th><th>10:00</th><th>거래원·유형</th></tr></thead>
+        <tbody>${rows}</tbody></table></div></div>`;
+}
+function renderReport() {
+    const R = META.report;
+    if (!R) {
+        $("report").innerHTML = renderTopRep() + `<div class="rep"><h3>📈 성적표</h3><p class="sub">내일 다시 실행하면 오늘 종목의 다음 날 결과(시가·고가·종가)가 여기에 쌓여요.</p></div>`;
+        return;
+    }
+    const cell = (v) => `<td>${pct(v)}</td>`;
+    const tb = R.table.map(([g, s]) => `<tr><td><span class="g ${esc(g)}">${esc(g)}</span></td><td>${s.n}</td>
+        ${cell(s.o)}${cell(s.h)}${cell(s.c)}<td>${s.win}%</td></tr>`).join("");
+    const rc = R.recent.map((x) => `<tr data-n="${esc(x.code)}"><td><b>${esc(x.name)}</b><br><small>${esc(x.code)}</small></td>
+        <td><span class="g ${esc(x.cg)}">${esc(x.cg)}</span> <small>${x.cs ?? "-"}</small></td>${cell(x.o)}${cell(x.h)}${cell(x.c)}</tr>`).join("");
+    $("report").innerHTML = renderTopRep() + `<div class="rep"><h3>📈 성적표 · 종가 등급별 다음 날 결과</h3>
+        <p class="sub">전날 종가 대비 다음 거래일 시가·고가·종가 평균 · 기록 ${R.days}일치 · 시가 상승 비율 = 다음 날 시가가 전날 종가보다 높았던 비율</p>
+        <div class="card"><table><thead><tr><th>종가 등급</th><th>건수</th><th>시가</th><th>고가</th><th>종가</th><th>시가 상승</th></tr></thead>
+        <tbody>${tb}</tbody></table></div>
+        <p class="sub">${esc(R.last)} 종목의 다음 날 결과</p>
+        <div class="card"><table><thead><tr><th>종목</th><th>종가 등급</th><th>시가</th><th>고가</th><th>종가</th></tr></thead>
+        <tbody>${rc}</tbody></table></div></div>`;
+}
+renderReport();
+renderTopCard();
+renderTop();
+render();
+</script>
+</body></html>
