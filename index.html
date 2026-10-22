@@ -2,8 +2,16 @@
 <html lang="ko"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#e03131">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="明 주식">
+<script>if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(() => {});</script>
 <meta name="robots" content="noindex, nofollow">
-<title>明의 당일 주도주 분석 10/21(수)</title>
+<title>明의 당일 주도주 분석 10/22(목)</title>
 <style>
 :root { --bg:#f5f5f5; --card:#fff; --text:#222; --sub:#777; --line:#ddd; --head:#eee; --hover:#eef4ff;
         --accent:#2b6cb0; --up:#e03131; --dn:#1c7ed6; --sup:#2f9e44; }
@@ -139,6 +147,18 @@ td small { color: var(--sub); font-size: 11.5px; }
 .rep h3 { margin: 18px 0 8px; font-size: 16px; }
 .rep .sub { color: var(--sub); font-size: 12.5px; margin: 0 0 8px; }
 .rep tbody tr { cursor: default; } .rep tbody tr:hover { background: none; }
+.bst { display: inline-block; font-size: 11.5px; font-weight: bold; padding: 1px 7px; border-radius: 999px; border: 1px solid currentColor; }
+.bst.wait { color: var(--up); } .bst.take { color: var(--sup); } .bst.stop { color: var(--sub); }
+.bwarn { color: #e67700; font-size: 11.5px; }
+
+.fireban { margin: 0 0 12px; padding: 10px 12px; border-radius: 10px; border: 2px solid #e03131; background: rgba(224,49,49,.08); }
+.fireban .ft { font-weight: bold; color: #e03131; font-size: 15px; margin-bottom: 4px; }
+.fireban .fl { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0; }
+.fireban .fc { background: #e03131; color: #fff; border-radius: 999px; padding: 3px 10px; font-weight: bold; font-size: 13.5px; }
+.fireban .fs { color: var(--sub); font-size: 12px; line-height: 1.5; }
+tr.fire td { background: rgba(224,49,49,.07); }
+.fireban .fc2 { background: #fff; color: #e03131; border: 1.5px solid #e03131; } .fireban .fc small { font-weight: normal; font-size: 12px; }
+.bbest { display: inline-block; font-size: 12px; font-weight: bold; color: #fff; background: var(--up); border-radius: 4px; padding: 0 5px; white-space: nowrap; }
 .pos-below { font-size: 11px; color: var(--sub); margin-left: 3px; }
 tr.leadrow td { background: rgba(232, 89, 12, .06); }
 .mbox { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin: 0 0 12px; }
@@ -154,8 +174,9 @@ tr.leadrow td { background: rgba(232, 89, 12, .06); }
 .mbox .chk { display: grid; grid-template-columns: 1fr; gap: 2px; font-size: 12.5px; margin-top: 6px; }
 .mbox .chk .y { color: var(--sup); font-weight: bold; } .mbox .chk .n { color: var(--sub); }
 </style></head><body><div class="wrap">
-<h1><span class="mg">明</span>의 당일 주도주 분석 <span class="dt">10/21(수)</span></h1>
+<h1><span class="mg">明</span>의 당일 주도주 분석 <span class="dt">10/22(목)</span></h1>
 <div class="disc">⚠ 이 프로그램은 각종 보조지표를 종합해 분석한 참고용 정보일 뿐이며, 매매 추천이나 투자 권유가 아닙니다.</div>
+<div id="fire"></div>
 <div id="topcard"></div>
 <div class="top" id="top"></div>
 <div class="bar">
@@ -163,14 +184,15 @@ tr.leadrow td { background: rgba(232, 89, 12, .06); }
 </div>
 <div id="pick"></div>
 <div id="list"></div>
+<div id="bottom"></div>
 <div id="report"></div>
 </div>
 
 <div id="dv" aria-hidden="true"><div class="box" id="dbox"></div></div>
 
 <script>
-const DATA = [{"code": "281820", "name": "케이씨텍", "price": 100300, "score": 38, "phase": "추세 관찰", "sector": "의료/정밀기기", "previous_high": 134100, "previous_high_gap": -25.21, "wave_phase": "상승 국면", "wave_event": "중파동 유지중", "wave_small": "소파동 전환 (눌림 끝 반등)", "wave_info": "저점·고점이 높아지는 상승 국면 (약 3개월째, 시작 저점 대비 +82%)", "plan_info": "상방 저항 134,100원 (+33.7%, 전고점) · 하방 지지 97,525원 (-2.8%, 20일선)", "ma_support": "20/60선 지지 양호", "risk": "돌파 실패 (106,000원 재이탈), 기준봉 시가 108,500원 이탈", "inv_info": "외국인 5일 누적 순매도 -5.6만주 (당일 순매도) · 기관 5일 누적 순매수 +10.3만주 (당일 순매수)", "ind_comment": "추세 지표는 혼조, 단기 지표는 중립.", "sig_broken": "지지 이탈: 돌파 실패 (106,000원 재이탈), 기준봉 시가 108,500원 이탈", "trend": "강한 우상향", "credit_notch": 13, "inv_frg_streak": -1, "inv_ins_streak": 1, "grade": "C", "lx": {"chg": 12.7, "gap": 4.49, "tail": 3.09, "tval": 313.7, "tr": true, "pc": 89000, "vx": 1.1, "chg5": -10.29, "chg20": 37.77, "up": 1, "hi52": false, "upper": false, "nh": 1, "h52": -25.21, "tvx": 1.1, "res_list": [[101303, 1.0, "매물대"], [102100, 1.8, "전고점"], [110000, 9.7, "라운드 피겨"]], "res": 101303, "res_pct": 1.0, "res_kind": "매물대", "turn": 1.59, "mn": {"ok": false, "chk": [1, 1, 0, 1, 1], "amv": 51, "amg": 127, "amh": 103400, "pml": 98500, "pmh": 101100, "drop": -4.7, "pmv": 46, "c": [91600, 93500, 94900, 93400, 94900, 96300, 97800, 97100, 97300, 96600, 98000, 97700, 98000, 100300, 102100, 101900, 102200, 101900, 101600, 101800, 102500, 102300, 102400, 103000, 103100, 102700, 102200, 102500, 102600, 101400, 102500, 102100, 102600, 102000, 102300, 102300, 102500, 102300, 102900, 102900, 102500, 102000, 101800, 101600, 101600, 101700, 100900, 100700, 100400, 100600, 100400, 100000, 100600, 100300, 100000, 100300, 100200, 100500, 100800, 100200, 101000, 100300, 99900, 99900, 99900, 100500, 100700, 100500, 100600, 100300, 99600, 99600, 99900, 100200, 100000, 100000, 100000], "t": ["0900", "0905", "0910", "0915", "0920", "0925", "0930", "0935", "0940", "0945", "0950", "0955", "1000", "1005", "1010", "1015", "1020", "1025", "1030", "1035", "1040", "1045", "1050", "1055", "1100", "1105", "1110", "1115", "1120", "1125", "1130", "1135", "1140", "1145", "1150", "1155", "1200", "1205", "1210", "1215", "1220", "1225", "1230", "1235", "1240", "1245", "1250", "1255", "1300", "1305", "1310", "1315", "1320", "1325", "1330", "1335", "1340", "1345", "1350", "1355", "1400", "1405", "1410", "1415", "1420", "1425", "1430", "1435", "1440", "1445", "1450", "1455", "1500", "1505", "1510", "1515", "1530"], "hold": 3.0, "th": [40.0, 60.0], "near": true}, "mrank": 166, "th": []}, "st": {"streak": 1, "count": 1, "days": 4}, "sw": {"g": "C", "s": 42, "p": "추세 관찰"}, "csp": [["오후 지지", 12, "🟡 다섯 개 중 네 개 충족"]], "cs": 12, "cg": "D", "cg0": "D", "cap": "", "core": []}, {"code": "396300", "name": "HT로보틱스", "price": 11520, "score": 62, "phase": "돌파 진행", "sector": "금속", "previous_high": 11250, "previous_high_gap": 2.4, "wave_phase": "상승 국면", "wave_event": "중파동 유지중", "wave_small": "소파동 유지중 (상승 다리)", "wave_info": "저점·고점이 높아지는 상승 국면 (약 3개월째, 시작 저점 대비 +309%)", "plan_info": "상방 저항: 전고점 위 (가까운 저항 없음) · 하방 지지 6,652원 (-42.3%, 20일선)", "ma_support": "20/60선 지지 양호", "risk": "단기 과열 심함", "inv_info": "외국인 2일 연속 순매수 +57.2만주 · 기관 5일 누적 순매도 -1.7만주 (당일 순매도)", "absorb_info": "전고점 11,250원 매물 소화율 0% (소화 부족) · 고점 후 0일", "ind_comment": "추세 지표는 강세, 단기 과열 신호가 있어 추격은 조심. 돌파가 진행 중인 구간.", "sig_breakout": "전고점 11,250원 돌파 (거래량 2.8배) · 매물 부담", "sig_support": "지지 확인: 피보 38.2%", "trend": "강한 우상향", "credit_notch": 7, "inv_frg_streak": 2, "inv_ins_streak": -1, "grade": "B", "lx": {"chg": 15.55, "gap": 3.51, "tail": 1.48, "tval": 3407.1, "tr": true, "pc": 9970, "vx": 3.3, "chg5": 59.34, "chg20": 141.26, "up": 4, "hi52": true, "upper": false, "nh": 6, "h52": -1.45, "tvx": 5.0, "res_list": [[15000, 30.2, "라운드 피겨"]], "res": 15000, "res_pct": 30.2, "res_kind": "라운드 피겨", "turn": 117.44, "mn": {"ok": false, "chk": [1, 1, 0, 1, 1], "amv": 60, "amg": 121, "amh": 11690, "pml": 10800, "pmh": 11220, "drop": -7.6, "pmv": 21, "c": [9930, 10160, 10090, 10050, 10570, 11080, 10920, 10730, 10840, 10760, 10610, 10355, 10490, 10570, 10800, 10650, 10830, 10800, 10750, 10900, 11200, 11690, 11500, 11385, 11330, 11180, 11040, 10990, 10940, 11100, 11120, 11180, 11120, 11240, 11190, 11175, 11190, 11170, 11130, 11080, 11030, 11050, 11150, 11230, 11300, 11180, 11250, 11150, 11180, 11070, 11120, 11090, 11060, 11070, 10960, 10860, 10980, 10970, 10920, 10830, 10810, 10850, 10900, 10890, 10820, 10830, 10930, 10870, 10945, 11010, 10980, 10980, 11030, 11140, 11140, 11110, 11140], "t": ["0900", "0905", "0910", "0915", "0920", "0925", "0930", "0935", "0940", "0945", "0950", "0955", "1000", "1005", "1010", "1015", "1020", "1025", "1030", "1035", "1040", "1045", "1050", "1055", "1100", "1105", "1110", "1115", "1120", "1125", "1130", "1135", "1140", "1145", "1150", "1155", "1200", "1205", "1210", "1215", "1220", "1225", "1230", "1235", "1240", "1245", "1250", "1255", "1300", "1305", "1310", "1315", "1320", "1325", "1330", "1335", "1340", "1345", "1350", "1355", "1400", "1405", "1410", "1415", "1420", "1425", "1430", "1435", "1440", "1445", "1450", "1455", "1500", "1505", "1510", "1515", "1530"], "hold": 3.0, "th": [40.0, 60.0], "near": true}, "mrank": 17, "th": []}, "st": {"streak": 1, "count": 1, "days": 4}, "sw": {"g": "A", "s": 70, "p": "돌파 진행"}, "csp": [["오후 지지", 12, "🟡 다섯 개 중 네 개 충족"], ["평소 대비 쏠림", 12, "거래대금 평소의 5.0배 (직전 20일 평균 대비, 3배↑)"], ["덩치 대비 쏠림", 8, "회전율 117.4% (거래대금 ÷ 시가총액, 15%↑)"], ["신고가·주도력", 15, "신고가 행진 (최근 20일 신고가 6회)"], ["고가 마감", 3, "윗꼬리 1.5% (고가 대비)"]], "cs": 50, "cg": "B", "cg0": "B", "cap": "", "core": [], "top1": true, "top_nx": false, "jp": null, "frg": null}];
-const META = {"date": "2026-10-21", "cond": "주도", "report": {"table": [["A", {"n": 1, "o": 0.12, "h": 1.49, "c": -5.94, "win": 100}], ["C", {"n": 6, "o": -1.09, "h": 1.24, "c": -3.86, "win": 0}], ["D", {"n": 10, "o": -1.73, "h": 0.37, "c": -4.86, "win": 0}], ["전체", {"n": 17, "o": -1.39, "h": 0.74, "c": -4.57, "win": 6}]], "recent": [{"code": "340450", "name": "지씨지놈", "cg": "D", "cs": 22, "o": 0.0, "h": 0.2, "c": -2.18, "nd": "2026-10-21"}], "last": "2026-10-20", "days": 3}, "core": {"themes": [{"name": "폐기물처리", "chg": 8.79, "n": 7, "up": 5, "mine": 0, "top": [{"code": "011370", "name": "서한", "chg": 29.9}, {"code": "003010", "name": "혜인", "chg": 8.79}, {"code": "035890", "name": "서희건설", "chg": 0.98}], "fb": false}, {"name": "무선충전기관련주", "chg": 5.24, "n": 5, "up": 4, "mine": 0, "top": [{"code": "043590", "name": "웰킵스하이텍", "chg": 5.24}, {"code": "004710", "name": "한솔테크닉스", "chg": 4.13}, {"code": "089010", "name": "켐트로닉스", "chg": 3.41}], "fb": false}, {"name": "건설_해외건설", "chg": 3.92, "n": 5, "up": 5, "mine": 0, "top": [{"code": "047040", "name": "대우건설", "chg": 4.59}, {"code": "006360", "name": "GS건설", "chg": 4.42}, {"code": "028050", "name": "삼성E&A", "chg": 3.92}], "fb": false}, {"name": "반도체_후공정장비", "chg": 3.86, "n": 5, "up": 5, "mine": 0, "top": [{"code": "086390", "name": "유니테스트", "chg": 6.82}, {"code": "089890", "name": "코세스", "chg": 3.86}, {"code": "039030", "name": "이오테크닉스", "chg": 1.66}], "fb": false}, {"name": "반도체_후공정", "chg": 3.66, "n": 5, "up": 5, "mine": 0, "top": [{"code": "036540", "name": "SFA반도체", "chg": 6.3}, {"code": "033640", "name": "네패스", "chg": 3.66}, {"code": "067310", "name": "하나마이크론", "chg": 2.65}], "fb": false}], "market": true, "prev": "2026-10-20"}, "toprep": {"rows": [{"run_date": "2026-10-21", "code": "396300", "name": "HT로보틱스", "cs": 50, "cg": "B", "price": 11520.0, "nx": 0, "next_date": null, "x800": null, "x830": null, "x900": null, "x930": null, "rule": null, "rule_at": null, "res": 15000.0, "x_res": null, "res_hit": null, "x1000": null, "jp_name": null, "jp_conc": null, "jp_day": null, "jp_ok": null, "ty_weak": 0, "turn": 117.44, "frg_net": null, "frg_pct": null, "skip": false}, {"run_date": "2026-10-20", "code": "340450", "name": "지씨지놈", "cs": 22, "cg": "D", "price": 10090.0, "nx": 0, "next_date": "2026-10-21", "x800": null, "x830": null, "x900": -0.25, "x930": -2.53, "rule": -4.61, "rule_at": "10:00", "res": 10340.0, "x_res": -4.61, "res_hit": "10:00", "x1000": -4.61, "jp_name": null, "jp_conc": null, "jp_day": null, "jp_ok": null, "ty_weak": 0, "turn": 6.08, "frg_net": null, "frg_pct": null, "skip": false}, {"run_date": "2026-10-19", "code": "010580", "name": "에스엠벡셀", "cs": 60, "cg": "A", "price": 4040.0, "nx": 0, "next_date": "2026-10-20", "x800": null, "x830": null, "x900": -0.13, "x930": -4.09, "rule": -0.62, "rule_at": "10:00", "res": 5000.0, "x_res": -0.62, "res_hit": "10:00", "x1000": -0.62, "jp_name": null, "jp_conc": null, "jp_day": null, "jp_ok": null, "ty_weak": 0, "turn": 24.06, "frg_net": null, "frg_pct": null, "skip": false}], "sum": {"n": 2, "avg": -2.62, "win": 0, "total": -5.2, "rn": 2, "ravg": -2.62, "rwin": 0}}, "made": "2026-10-21 19:47"};
+const DATA = [{"code": "441270", "name": "파인엠텍", "price": 9980, "score": 51, "phase": "고점돌파 대기", "sector": "전기/전자", "previous_high": 10260, "previous_high_gap": -2.73, "wave_phase": "상승 후 박스", "wave_event": "중파동 유지중", "wave_small": "소파동 돌파 (직전 고점 위)", "wave_info": "상승 → 쉬어가는 박스(7,910~12,100원, 약 15개월째) · 37일 전 하단 이탈 후 복귀", "plan_info": "상방 저항 10,260원 (+2.8%, 전고점) · 하방 지지 9,232원 (-7.5%, 20일선)", "ma_support": "20/60선 지지 양호", "risk": "특별한 위험 없음", "inv_info": "외국인 7일 연속 순매도 -92.0만주 · 기관 3일 연속 순매수 +110.9만주", "absorb_info": "전고점 10,260원 매물 소화율 0% (소화 부족) · 고점 후 2일", "ind_comment": "추세 지표는 강세, 단기 지표는 중립. 전고점 돌파를 시도하는 구간. 변동성이 줄어 방향 결정이 가까워요.", "sig_support": "지지 확인: 20선·상승갭 상단", "trend": "강한 우상향", "credit_notch": 10, "inv_frg_streak": -7, "inv_ins_streak": 3, "grade": "C", "lx": {"chg": 5.05, "gap": -0.11, "tail": 2.2, "tval": 227.3, "tr": true, "pc": 9500, "vx": 2.8, "chg5": 11.01, "chg20": 10.4, "up": 2, "hi52": false, "upper": false, "limit": 12380, "locked": false, "nh": 0, "h52": -19.65, "tvx": 3.0, "res_list": [[10080, 1.0, "매물대"], [10080, 1.0, "전고점"], [11000, 10.2, "라운드 피겨"]], "res": 10080, "res_pct": 1.0, "res_kind": "매물대", "turn": 5.35, "mn": {"ok": true, "chk": [1, 1, 1, 1, 1], "amv": 46, "amg": 89, "amh": 10120, "pml": 9880, "pmh": 10200, "drop": -2.4, "pmv": 50, "c": [9440, 9980, 9860, 9760, 9840, 9940, 9860, 9830, 9840, 9810, 9750, 9720, 9710, 9820, 9770, 9820, 9920, 9980, 9920, 9930, 9870, 9930, 10020, 10040, 10060, 10110, 10100, 10130, 10140, 10110, 10100, 10080, 10040, 10080, 10080, 10040, 10080, 10090, 10090, 10080, 10070, 10040, 10040, 9990, 9980, 10000, 9970, 9980, 9970, 9930, 9980, 10000, 9970, 9980, 9990, 9920, 9910, 9940, 9910, 9920, 9990, 10040, 10030, 10050, 10000, 10040, 10030, 10000, 10010, 9970, 10000, 10040, 10040, 10060, 10190, 10150, 10110], "t": ["0900", "0905", "0910", "0915", "0920", "0925", "0930", "0935", "0940", "0945", "0950", "0955", "1000", "1005", "1010", "1015", "1020", "1025", "1030", "1035", "1040", "1045", "1050", "1055", "1100", "1105", "1110", "1115", "1120", "1125", "1130", "1135", "1140", "1145", "1150", "1155", "1200", "1205", "1210", "1215", "1220", "1225", "1230", "1235", "1240", "1245", "1250", "1255", "1300", "1305", "1310", "1315", "1320", "1325", "1330", "1335", "1340", "1345", "1350", "1355", "1400", "1405", "1410", "1415", "1420", "1425", "1430", "1435", "1440", "1445", "1450", "1455", "1500", "1505", "1510", "1515", "1530"], "hold": 3.0, "th": [40.0, 60.0]}, "mrank": 205, "th": []}, "st": {"streak": 1, "count": 1, "days": 5}, "sw": {"g": "C", "s": 46, "p": "고점돌파 대기", "gap": null}, "csp": [["오후 지지", 25, "🟢 다섯 개 모두 충족"], ["평소 대비 쏠림", 12, "거래대금 평소의 3.0배 (직전 20일 평균 대비, 3배↑)"], ["덩치 대비 쏠림", 2, "회전율 5.3% (거래대금 ÷ 시가총액, 4%↑)"]], "cs": 39, "cg": "C", "cg0": "C", "cap": "", "core": [], "top1": true, "top_nx": true, "jp": null, "frg": null}];
+const META = {"date": "2026-10-22", "cond": "주도", "report": {"table": [["A", {"n": 1, "o": 0.12, "h": 1.49, "c": -5.94, "win": 100}], ["B", {"n": 1, "o": -5.08, "h": -4.65, "c": -14.64, "win": 0}], ["C", {"n": 6, "o": -1.09, "h": 1.24, "c": -3.86, "win": 0}], ["D", {"n": 11, "o": -1.72, "h": 0.27, "c": -5.25, "win": 0}], ["전체", {"n": 19, "o": -1.6, "h": 0.38, "c": -5.34, "win": 5}]], "recent": [{"code": "396300", "name": "HT로보틱스", "cg": "B", "cs": 50, "o": -5.08, "h": -4.65, "c": -14.64, "nd": "2026-10-22"}, {"code": "281820", "name": "케이씨텍", "cg": "D", "cs": 12, "o": -1.6, "h": -0.8, "c": -9.17, "nd": "2026-10-22"}], "last": "2026-10-21", "days": 4}, "core": {"themes": [], "market": false, "prev": "2026-10-21"}, "toprep": {"rows": [{"run_date": "2026-10-22", "code": "441270", "name": "파인엠텍", "cs": 39, "cg": "C", "price": 9980.0, "nx": 1, "next_date": null, "x800": null, "x830": null, "x900": null, "x930": null, "rule": null, "rule_at": null, "res": 10080.0, "x_res": null, "res_hit": null, "x1000": null, "jp_name": null, "jp_conc": null, "jp_day": null, "jp_ok": null, "ty_weak": 0, "turn": 5.35, "frg_net": null, "frg_pct": null, "skip": true}, {"run_date": "2026-10-21", "code": "396300", "name": "HT로보틱스", "cs": 50, "cg": "B", "price": 11520.0, "nx": 0, "next_date": "2026-10-22", "x800": null, "x830": null, "x900": -6.24, "x930": -12.23, "rule": -10.06, "rule_at": "10:00", "res": 15000.0, "x_res": -10.06, "res_hit": "10:00", "x1000": -10.06, "jp_name": null, "jp_conc": null, "jp_day": null, "jp_ok": null, "ty_weak": 0, "turn": 117.44, "frg_net": null, "frg_pct": null, "skip": false}, {"run_date": "2026-10-20", "code": "340450", "name": "지씨지놈", "cs": 22, "cg": "D", "price": 10090.0, "nx": 0, "next_date": "2026-10-21", "x800": null, "x830": null, "x900": -0.25, "x930": -2.53, "rule": -4.61, "rule_at": "10:00", "res": 10340.0, "x_res": -4.61, "res_hit": "10:00", "x1000": -4.61, "jp_name": null, "jp_conc": null, "jp_day": null, "jp_ok": null, "ty_weak": 0, "turn": 6.08, "frg_net": null, "frg_pct": null, "skip": false}, {"run_date": "2026-10-19", "code": "010580", "name": "에스엠벡셀", "cs": 60, "cg": "A", "price": 4040.0, "nx": 0, "next_date": "2026-10-20", "x800": null, "x830": null, "x900": -0.13, "x930": -4.09, "rule": -0.62, "rule_at": "10:00", "res": 5000.0, "x_res": -0.62, "res_hit": "10:00", "x1000": -0.62, "jp_name": null, "jp_conc": null, "jp_day": null, "jp_ok": null, "ty_weak": 0, "turn": 24.06, "frg_net": null, "frg_pct": null, "skip": false}], "sum": {"n": 3, "avg": -5.1, "win": 0, "total": -14.7, "rn": 3, "ravg": -5.1, "rwin": 0}}, "bottom": {"made": "2026-10-22 16:07", "days": 5, "rows": [{"code": "326030", "name": "SK바이오팜", "d": "20261019", "days": 3, "c0": 75400.0, "c": 74900.0, "ret": -0.7, "stop": 73100, "mid": 79406, "state": "wait", "warn": ["Power 급락 뒤"], "best": true, "rr": 2.4, "room": true}, {"code": "079960", "name": "동양이엔피", "d": "20261022", "days": 0, "c0": 16340.0, "c": 16340.0, "ret": 0.0, "stop": 17200, "mid": 17534, "state": "wait", "warn": ["Speed 하락 중", "Power 급락 뒤", "음봉 신호 · 손절선이 종가 위"], "best": false, "rr": 14.6, "room": false}, {"code": "317400", "name": "자이에스앤디", "d": "20261022", "days": 0, "c0": 9560.0, "c": 9560.0, "ret": 0.0, "stop": 8640, "mid": 10768, "state": "wait", "warn": [], "best": false, "rr": 1.3, "room": false}, {"code": "079900", "name": "전진건설로봇", "d": "20261021", "days": 1, "c0": 37000.0, "c": 38500.0, "ret": 4.1, "stop": 36500, "mid": 44182, "state": "wait", "warn": [], "best": false, "rr": 15.0, "room": false}, {"code": "181710", "name": "NHN", "d": "20261021", "days": 1, "c0": 57100.0, "c": 55700.0, "ret": -2.5, "stop": 51600, "mid": 59569, "state": "wait", "warn": [], "best": false, "rr": 0.5, "room": false}, {"code": "122640", "name": "예스티", "d": "20261021", "days": 1, "c0": 30800.0, "c": 29650.0, "ret": -3.7, "stop": 29100, "mid": 36218, "state": "wait", "warn": [], "best": false, "rr": 3.2, "room": false}, {"code": "005850", "name": "에스엘", "d": "20261019", "days": 3, "c0": 51300.0, "c": 50100.0, "ret": -2.3, "stop": 48150, "mid": 52796, "state": "wait", "warn": [], "best": false, "rr": 0.5, "room": false}, {"code": "008040", "name": "사조동아원", "d": "20261019", "days": 3, "c0": 7690.0, "c": 7470.0, "ret": -2.9, "stop": 7180, "mid": 7939, "state": "wait", "warn": [], "best": false, "rr": 0.8, "room": false}, {"code": "003230", "name": "삼양식품", "d": "20261016", "days": 4, "c0": 1228000.0, "c": 1226000.0, "ret": -0.2, "stop": 1150000, "mid": 1284537, "state": "wait", "warn": ["Power 급락 뒤"], "best": false, "rr": 1.1, "room": false}, {"code": "122870", "name": "와이지엔터테인먼트", "d": "20261016", "days": 4, "c0": 42200.0, "c": 41450.0, "ret": -1.8, "stop": 39050, "mid": 44627, "state": "wait", "warn": ["Power 급락 뒤"], "best": false, "rr": 1.1, "room": false}, {"code": "039840", "name": "디오", "d": "20261020", "days": 2, "c0": 10200.0, "c": 10400.0, "ret": 2.0, "stop": 10110, "mid": 10570, "state": "take", "warn": [], "best": false, "rr": 2.1, "room": false}, {"code": "068760", "name": "셀트리온제약", "d": "20261019", "days": 3, "c0": 39900.0, "c": 38600.0, "ret": -3.3, "stop": 38600, "mid": 40497, "state": "take", "warn": [], "best": false, "rr": 0.5, "room": false}, {"code": "086900", "name": "메디톡스", "d": "20261016", "days": 4, "c0": 68100.0, "c": 67600.0, "ret": -0.7, "stop": 65000, "mid": 70342, "state": "take", "warn": [], "best": false, "rr": 0.5, "room": false}, {"code": "462870", "name": "시프트업", "d": "20261016", "days": 4, "c0": 31600.0, "c": 31150.0, "ret": -1.4, "stop": 30450, "mid": 31812, "state": "take", "warn": ["Power 급락 뒤"], "best": false, "rr": 0.4, "room": false}, {"code": "114840", "name": "아이패밀리에스씨", "d": "20261019", "days": 3, "c0": 8440.0, "c": 8420.0, "ret": -0.2, "stop": 8350, "mid": 8633, "state": "stop", "warn": ["Power 급락 뒤"], "best": true, "rr": 2.9, "room": true}, {"code": "237690", "name": "에스티팜", "d": "20261019", "days": 3, "c0": 94200.0, "c": 89300.0, "ret": -5.2, "stop": 90600, "mid": 98264, "state": "stop", "warn": ["Power 급락 뒤"], "best": false, "rr": 1.1, "room": false}]}, "made": "2026-10-22 16:44"};
 const $ = (id) => document.getElementById(id);
 const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const num = (v, d = 0) => (v == null || isNaN(v)) ? "-" : Number(v).toLocaleString("ko-KR", { minimumFractionDigits: d, maximumFractionDigits: d });
@@ -184,7 +206,7 @@ const KEYF = {
     grade: (r) => gRank(r.grade) * 1000 + (r.credit_notch ?? 99) * 10 - (r.score ?? 0) / 100,
     st: (r) => -(r.st.streak * 1000 + (r.lx.tval ?? 0) / 1e6),
 };
-const sorted = (arr) => [...arr].sort((a, b) => KEYF[sortKey](a) - KEYF[sortKey](b) || (b.lx.tval ?? 0) - (a.lx.tval ?? 0));
+const sorted = (arr) => [...arr].sort((a, b) => (b.btp || 0) - (a.btp || 0) || KEYF[sortKey](a) - KEYF[sortKey](b) || (b.lx.tval ?? 0) - (a.lx.tval ?? 0));
 
 // 대장(r.lead = "theme", r.lead_rank 1·2·3): 핵심 테마 안 등락률 순 - 파이썬(mark_leaders)에서 정함
 // 일봉 위치: 신고가(250일 고가 경신) / 전고점 돌파(최근 60일 고점 위) / 전고점 아래
@@ -215,6 +237,10 @@ function badges(r) {
     else if (r.lead === "theme") s += `<span class="bd lead" title="핵심 테마 '${esc(r.lead_of || "")}' 안에서 ${r.lead_rank}번째로 강함 (등락률 순)">테마 ${r.lead_rank}번째</span>`;
     if (r.cont === "lead") s += `<span class="bd cont" title="어제 ${esc(r.prev_txt || "")} → 오늘도 등장·상승">🔁 연속 주도</span>`;
     if (r.lx.upper) s += `<span class="ic">${IC_UP}</span>`;
+    if (r.btp === 2) s += '<span class="bd lim">🔥 불꽃</span>';
+    else if (r.btp === 1) s += '<span class="bd st">🎯 바닥 타점</span>';
+    if (r.lx.locked) s += '<span class="bd lim">🔒 상한가 · 종가 매수 불가</span>';
+    if (r.lx.hot != null) s += `<span class="bd w">⚠ 과열 · 평단 +${Number(r.lx.hot).toFixed(0)}%</span>`;
     const p = posOf(r);
     if (runOf(r)) s += `<span class="ic">${IC_RUN}</span>`;
     else if (p === "hi") s += '<span class="bd hi" title="최근 250거래일 고가를 넘음">신고가</span>';
@@ -228,7 +254,7 @@ function badges(r) {
     return s;
 }
 function rowHtml(r) {
-    return `<tr data-c="${esc(r.code)}"${isTop(r) ? ' class="leadrow"' : ""}>
+    return `<tr data-c="${esc(r.code)}"${isTop(r) || r.btp === 2 ? ` class="${[isTop(r) ? "leadrow" : "", r.btp === 2 ? "fire" : ""].join(" ").trim()}"` : ""}>
         <td><b>${esc(r.name)}</b>${badges(r)}<br><small>${esc(r.code)}${view === "all" && r.sector ? " · " + esc(r.sector) : ""}</small></td>
         <td>${num(r.price)}<br>${pct(r.lx.chg)}</td>
         <td>${num(r.lx.tval)}<small>억${r.lx.tr === false ? "(추정)" : ""}</small>${r.lx.mrank ? `<br><small class="rk">시장 ${r.lx.mrank}위</small>` : ""}</td>
@@ -246,7 +272,8 @@ function groups(rows) {
         sec, list, n: list.length,
         tval: list.reduce((s, r) => s + (r.lx.tval || 0), 0),
         avg: list.reduce((s, r) => s + (r.lx.chg || 0), 0) / list.length,
-    })).sort((a, b) => b.n - a.n || b.tval - a.tval);
+        btp: Math.max(0, ...list.map((r) => r.btp || 0)),
+    })).sort((a, b) => b.btp - a.btp || b.n - a.n || b.tval - a.tval);
 }
 
 function render() {
@@ -574,6 +601,36 @@ function renderReport() {
         <div class="card"><table><thead><tr><th>종목</th><th>종가 등급</th><th>시가</th><th>고가</th><th>종가</th></tr></thead>
         <tbody>${rc}</tbody></table></div></div>`;
 }
+function fireHtml(B) {   // (10/22) 첫 화면: 🆕 오늘 새로 나온 신호 + 🔥 진행 중인 불꽃
+    const R = (B && B.rows) || [];
+    const today = R.filter((x) => x.days === 0);
+    const fire = R.filter((x) => x.best && x.state === "wait" && x.days > 0);
+    if (!today.length && !fire.length) return "";
+    const dd = (d) => `${d.slice(4, 6)}/${d.slice(6, 8)}`;
+    const chip = (x, when) => `<span class="fc${x.best ? "" : " fc2"}">${x.best ? "🔥 " : "🎯 "}${x.room ? "⭐ " : ""}${esc(x.name)} ${num(x.c)}${when ? ` <small>${when}</small>` : ""}</span>`;
+    let h = `<div class="fireban">`;
+    if (today.length) h += `<div class="ft">🆕 오늘 새로 나온 신호 ${today.length}개${today.some((x) => x.best) ? " · 🔥 불꽃 " + today.filter((x) => x.best).length + "개" : ""}</div>
+        <div class="fl">${today.map((x) => chip(x, "")).join("")}</div>`;
+    if (fire.length) h += `<div class="ft">🔥 진행 중인 불꽃 ${fire.length}개</div>
+        <div class="fl">${fire.map((x) => chip(x, `${dd(x.d)} · ${x.days}일 전`)).join("")}</div>`;
+    return h + `<div class="fs">🔥 불꽃 = 초록 화살표 + 밴드 하단 + Ratio -0.1 아래 + Speed 2일 연속 상승 (검증 20일 +9.1%, 승률 54%) · 🎯 = 초록 화살표 + 밴드 하단 · ⭐ 여유 2배 = 밴드 상단까지 거리가 신호 봉 몸통의 2배 이상 (손익비 1.95) · 진입 = 신호 날 종가 또는 다음 날 시가 · 익절 = 밴드 상단 닿으면 · 손절 = 종가가 신호 봉 시가 아래 · 참고용</div></div>`;
+}
+function renderBottom() {
+    const B = META.bottom;
+    if (!B) { $("bottom").innerHTML = ""; return; }
+    const st = { wait: "🎯 진행 중", take: "✅ 익절", stop: "❌ 손절" };
+    const dd = (d) => `${d.slice(4, 6)}/${d.slice(6, 8)}`;
+    const rows = B.rows.map((x) => `<tr${x.best ? ' class="fire"' : ""}><td><b>${esc(x.name)}</b>${x.best ? ' <span class="bbest">🔥 불꽃</span>' : ""}${x.room ? ' <span class="bbest">⭐ 여유 2배</span>' : ""}<br><small>${esc(x.code)}</small></td>
+        <td>${dd(x.d)}<br><small>${x.days === 0 ? "오늘" : x.days + "일 전"}</small></td>
+        <td class="hm">${num(x.c0)}</td><td>${num(x.c)}<br>${pct(x.ret)}</td><td>${num(x.stop)}<br><small>${num(x.mid)}</small></td>
+        <td><span class="bst ${x.state}">${st[x.state]}</span>${x.warn.length ? `<br><span class="bwarn">⚠ ${esc(x.warn.join(" · "))}</span>` : ""}</td></tr>`).join("");
+    const body = B.rows.length ? `<div class="card" style="overflow-x:auto"><table><thead><tr><th>종목</th><th>신호일</th><th class="hm">신호가</th><th>현재가</th><th>손절선<br>익절선</th><th>상태</th></tr></thead>
+        <tbody>${rows}</tbody></table></div>` : `<div class="empty">최근 ${B.days}거래일 안에 바닥 타점이 나온 종목이 없어요.</div>`;
+    $("bottom").innerHTML = `<div class="rep"><h3>🎯 바닥 타점 · 초록 화살표 + 밴드 하단 (최근 ${B.days}거래일)</h3>
+        <p class="sub">🔥 불꽃 = Ratio -0.1 아래 + Speed 2일 연속 상승 (20일 +9.1%, 승률 54%) · 매수 = 신호 날 종가 · 손절선 = 신호 봉 시가 (종가로 깨면) · 익절선 = 밴드 상단 (닿으면 팔기, 평균 4.7일) · ✅ 익절 = 신호 뒤 밴드 상단에 닿음 · ❌ 손절 = 종가가 손절선 아래 · 일봉 ${esc(B.made)} 기준 · 전체 검증: 20일 +5.3% (참고용)</p>${body}</div>`;
+}
+$("fire").innerHTML = fireHtml(META.bottom);
+renderBottom();
 renderReport();
 renderTopCard();
 renderTop();
