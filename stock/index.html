@@ -188,6 +188,8 @@ small { color: var(--sub); }
         background: none; border: 0; padding: 0; vertical-align: -1px; }
 .detail h2 .star { font-size: 22px; }
 .watchinfo { font-size: 12.5px; color: var(--sub); margin: 2px 0 0; }
+.sigic { margin-left: 4px; letter-spacing: 1px; }
+.sigbox { background: #fff4e6; border-radius: 6px; padding: 6px 8px; color: #333; margin: 4px 0 6px; }
 .cnote { color: #868e96; }
 .watchinfo b.u { color: #e03131; } .watchinfo b.d { color: #1c7ed6; }
 @media (prefers-color-scheme: dark) and (min-width: 100000px) { #watchBtn.on { background: #4a3b00; color: #ffe066; } }
@@ -565,7 +567,7 @@ table.heat th.hs small.fl { margin-top: 2px; }
 <h1 id="homeTitle" title="처음 화면으로"><span class="mg">明</span>의 종목분석</h1>
 <div class="tagline">자기종목 분석 도우미</div>
 <div class="disclaim">⚠ 이 프로그램은 각종 보조지표를 종합해 분석한 참고용 정보일 뿐이며, 매매 추천이나 투자 권유가 아닙니다.<br>
-※ S·A 등급은 차트 조건 점수예요. 지난 검증에서 S·A 등급을 산 결과가 평균보다 낫지 않았어요 (S급 20일 -2.3%). 매수 자리는 아래 🎯 바닥 타점을 참고하세요.</div>
+※ 단기 S·A·B 등급 = 지금 타점이 나온 종목이에요 (S 🔥⭐💧 · A 🔥 · B 🎯). 신호가 없는 종목은 차트 점수로 C 이하예요. 8년 검증 S 거래당 +5.9% (참고용)</div>
 <div class="info">
     DB 갱신: 2026-10-24 08:00:05 | 저장된 종목: 1755개  <span id="who"></span>
 </div>
@@ -613,7 +615,7 @@ table.heat th.hs small.fl { margin-top: 2px; }
             <button type="button" data-m="short" class="on">단기 스윙</button>
             <button type="button" data-m="mid">중기 (약 6개월)</button>
         </div>
-        <div class="sortnote">※ 등급은 차트 자리를 평가한 점수예요 (검증 중 · 지난 검증에서 S급은 평균보다 약했어요). 매매 추천이 아니에요.</div>
+        <div class="sortnote">※ 단기 S·A·B = 지금 진행 중인 타점 (S 🔥⭐💧 · A 🔥 · B 🎯), C 이하 = 차트 점수. 매매 추천이 아니에요.</div>
         <div class="list">
             <table>
                 <thead>
@@ -695,13 +697,13 @@ table.heat th.hs small.fl { margin-top: 2px; }
     </ul>
 
     <h3>3. 등급 보는 법</h3>
-    <p>등급은 <b>S → A → B → C → D → 등외</b> 6단계예요. 차트 조건을 많이 갖춘 자리일수록 앞쪽이에요.</p>
+    <p>등급은 <b>S → A → B → C → D → 등외</b> 6단계예요. (10/24) 단기 S·A·B 는 <b>지금 타점이 나온 종목</b>만 받아요. 익절·손절이 나면 차트 점수 등급으로 돌아가요.</p>
     <table>
         <tr><th>등급</th><th>뜻</th></tr>
-        <tr><td>S</td><td>아주 강함 - 차트 조건을 거의 모두 갖춘 자리 (※ 검증 중 · 매수 신호 아님)</td></tr>
-        <tr><td>A</td><td>강함</td></tr>
-        <tr><td>B</td><td>양호 - 여기까지를 <b>상위 등급</b>으로 봐요</td></tr>
-        <tr><td>C</td><td>보통</td></tr>
+        <tr><td>S</td><td>타점 🔥⭐💧 진행 중 (8년 검증 승률 55% · 손익비 2.4 · 거래당 +5.9%, 참고용)</td></tr>
+        <tr><td>A</td><td>타점 🔥 (⭐·💧 중 하나 없음) 진행 중 (🔥⭐ +4.7% · 🔥 +3.1%)</td></tr>
+        <tr><td>B</td><td>타점 🎯 바닥 타점 진행 중 (+2.2%)</td></tr>
+        <tr><td>C</td><td>신호 없음 · 차트 점수가 좋은 편 (예전 S·A·B·C)</td></tr>
         <tr><td>D</td><td>약함</td></tr>
         <tr><td>등외</td><td>조건 미달 - 추세가 무너졌거나 점수가 거의 없는 자리</td></tr>
     </table>
@@ -824,6 +826,18 @@ function prepData() {
             delete r.ij;
         }
     });
+    // (10/24) 단기 등급 = 타점: 진행 중인 신호(익절·손절 전) S 🔥⭐💧 / A 🔥 / B 🎯, 신호 없으면 차트 점수 등급을 C 이하로
+    const SIG = {};
+    ((META.bottom && META.bottom.rows) || []).filter((x) => x.state === "wait" || x.state === "yang").forEach((x) => {
+        const g = x.best && x.room && x.low ? "S" : x.best ? "A" : "B";
+        if (!SIG[x.code] || gRank(g) < gRank(SIG[x.code])) { SIG[x.code] = g; SIGX[x.code] = x; }
+    });
+    DATA.forEach((r) => {
+        if (r.grade0 === undefined) r.grade0 = r.grade;
+        const g = SIG[r.code];
+        if (g) { r.grade = g; r.gn = -1; r.sig_grade = 1; }
+        else if (["S", "A", "B"].includes(r.grade0)) { r.grade = "C"; r.gn = -1 + (r.gn ?? 0) / 100; }
+    });
 }
 const VAULT = null;
 
@@ -831,7 +845,7 @@ const $ = (id) => document.getElementById(id);
 let sortKey = "grade", sortDir = 1, picked = null;   // 기본: 등급순 (10/15 변경, 목록 위 안내 문구로 보완)
 let mode = "short";                         // short: 단기 스윙 / mid: 중기
 // (10/15) 화면 등급 6단계. 세부 순서는 gn(단기) / mgn(중기) 칸 번호로 정렬
-const GRADE6 = [["S", "아주 강함·검증 중"], ["A", "강함·검증 중"], ["B", "양호"], ["C", "보통"], ["D", "약함"], ["등외", "조건 미달"]];
+const GRADE6 = [["S", "타점 🔥⭐💧"], ["A", "타점 🔥"], ["B", "타점 🎯"], ["C", "보통"], ["D", "약함"], ["등외", "조건 미달"]];   // (10/24) S·A·B = 타점
 const G6 = GRADE6.map((x) => x[0]);
 const GRADE_ORDER = [...G6, "1++", "1+", "1", "2"];   // 좋은 순서 (뒤쪽은 예전 DB용 한우식)
 const gRank = (v) => { const i = GRADE_ORDER.indexOf(v); return i < 0 ? 99 : i; };
@@ -853,6 +867,16 @@ function num(v, d = 0) {
 const gradeMatch = (v, sel) => !sel || v === sel;
 // (10/15) 관리종목·투자경고 등 종목 상태는 등급과 별개로 이름 옆 빨간 배지
 const warnBadge = (r) => r.warn_state ? `<span class="warnb">⚠ ${esc(r.warn_state)}</span>` : "";
+// (10/24) 진행 중인 타점 표시: 종목명 뒤 🔥/🎯 + ⭐ + 💧, 상세 화면 맨 위에 손절선·익절선
+const SIGX = {};
+const sigIcons = (r) => { const x = SIGX[r.code]; return x ? `<span class="sigic">${x.best ? "🔥" : "🎯"}${x.room ? "⭐" : ""}${x.low ? "💧" : ""}</span>` : ""; };
+const sdd = (d) => d ? `${d.slice(4, 6)}/${d.slice(6, 8)}` : "";
+function sigInfo(r) {
+    const x = SIGX[r.code];
+    if (!x) return "";
+    return `<p class="watchinfo sigbox">${sigIcons(r)} 신호 ${sdd(x.d)}${x.days === 0 ? " (오늘)" : ` (${x.days}일 전)`} · ${x.state === "yang"
+        ? "첫 양봉 나오면 매수 · 손절선 = 그 양봉 시가" : `${x.ed ? `매수 ${sdd(x.ed)} · ` : ""}손절선 <b>${num(x.stop)}</b>`} · 익절선 <b>${num(x.mid)}</b>${x.warn && x.warn.length ? `<br>⚠ ${esc(x.warn.join(" · "))}` : ""}</p>`;
+}
 
 function fill(sel, key) {
     // 선택 목록을 현재 모드(단기/중기)의 값으로 다시 채운다
@@ -1145,7 +1169,7 @@ function renderList() {
 
     $("tbody").innerHTML = rows.map((r) => `
         <tr data-c="${esc(r.code)}" class="${r.code === picked ? "pick" : ""}">
-            <td class="l">${starBtn(r.code)}<b>${esc(r.name)}</b>${warnBadge(r)}<br><small>${esc(r.code)}</small></td>
+            <td class="l">${starBtn(r.code)}<b>${esc(r.name)}</b>${sigIcons(r)}${warnBadge(r)}<br><small>${esc(r.code)}</small></td>
             <td>${num(r.price)}</td>
             <td><b>${r[FM().score] == null ? "-" : num(r[FM().score])}</b></td>
             <td>${esc(r[FM().grade] ?? "-")}${mode === "short" && r.credit_outlook
@@ -1448,7 +1472,8 @@ function show(code, rerender = true) {
     $("detail").innerHTML = `
         <div class="navrow"><button class="back" type="button" onclick="history.back()">← 목록으로</button>
             <button class="home2" type="button" data-home="1">🏠 홈</button></div>
-        <h2>${starBtn(r.code)}${esc(r.name)}${warnBadge(r)} <small>${esc(r.code)}</small></h2>
+        <h2>${starBtn(r.code)}${esc(r.name)}${sigIcons(r)}${warnBadge(r)} <small>${esc(r.code)}</small></h2>
+        ${sigInfo(r)}
         ${watchInfo(r)}
         ${r.cond_note ? `<p class="watchinfo">ℹ ${esc(r.cond_note)} · 최근 조건에 걸렸던 종목이라 계속 분석 중이에요</p>` : ""}
         ${introHtml(r)}
@@ -1617,7 +1642,7 @@ function fireHtml(B) {   // (10/22) 첫 화면 '오늘의 신호': 오늘 새로
 function btpHtml() {   // (10/22) 🎯 바닥 타점: 진행 중인 신호만 (🔥 먼저)
     const B = META.bottom;
     if (!B) return "";
-    return fireHtml(B);   // (10/24) 🎯 바닥 타점 표는 뺌 - 오늘의 신호만 봄 (아래는 안 씀)
+    return "";   // (10/24) 오늘의 신호 상자·바닥 타점 표 모두 뺌 → 종목명 뒤 🔥⭐💧 + 등급 S·A·B 로 봄 (아래는 안 씀)
     const rows = (B.rows || []).filter((x) => x.state === "wait" || x.state === "yang");
     const others = (B.rows || []).length - rows.length;
     const pc = (v) => `<span class="${v > 0 ? "u" : v < 0 ? "d" : ""}">${v > 0 ? "+" : ""}${Number(v).toFixed(1)}%</span>`;
