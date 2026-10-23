@@ -1617,6 +1617,7 @@ function fireHtml(B) {   // (10/22) 첫 화면 '오늘의 신호': 오늘 새로
 function btpHtml() {   // (10/22) 🎯 바닥 타점: 진행 중인 신호만 (🔥 먼저)
     const B = META.bottom;
     if (!B) return "";
+    return fireHtml(B);   // (10/24) 🎯 바닥 타점 표는 뺌 - 오늘의 신호만 봄 (아래는 안 씀)
     const rows = (B.rows || []).filter((x) => x.state === "wait" || x.state === "yang");
     const others = (B.rows || []).length - rows.length;
     const pc = (v) => `<span class="${v > 0 ? "u" : v < 0 ? "d" : ""}">${v > 0 ? "+" : ""}${Number(v).toFixed(1)}%</span>`;
