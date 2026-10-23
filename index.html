@@ -662,7 +662,8 @@ function fireHtml(B) {   // (10/22) 첫 화면 '오늘의 신호': 오늘 새로
         <div class="sg-x">신호 ${dd(x.d)} · ${x.state === "yang" ? "첫 양봉 나오면 매수 · 손절선 = 그 양봉 시가" : `${x.ed ? `매수 ${dd(x.ed)} · ` : ""}손절선 ${num(x.stop)}`} · 익절선 ${num(x.mid)}${x.warn.length ? `<br>⚠ ${esc(x.warn.join(" · "))}` : ""}<br><button type="button" class="sg-go" data-go="${esc(x.code)}">상세 보기</button></div></details>`;
     return `<div class="fireban"><div class="ft">오늘의 신호<span>${R.length}</span></div>${R.map(row).join("")}</div>`;
 }
-function renderBottom() {
+function renderBottom() {   // (10/24) 🎯 바닥 타점 표는 뺌 - 오늘의 신호만 봄 (아래는 안 씀)
+    $("bottom").innerHTML = ""; return;
     const B = META.bottom;
     if (!B) { $("bottom").innerHTML = ""; return; }
     const st = { wait: "🎯 진행 중", yang: "⏳ 양봉 대기", take: "✅ 익절", stop: "❌ 손절", miss: "✖ 양봉 없음" };
