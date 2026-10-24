@@ -496,6 +496,12 @@ body.hasidx #mlightPc { display: flex; flex-wrap: wrap; gap: 6px 10px; justify-c
 .lline { display: flex; align-items: center; gap: 6px; padding: 4px 10px; font-size: 13.5px; white-space: nowrap; }
 .lline .lname { width: 42px; } .lline.kosdaq .lname { color: #9333ea; }
 .lline .ldots { margin-left: auto; display: flex; }
+/* (10/24) 신호등 몸통: 점 3개를 진회색 둥근 상자로 감쌈 */
+.lline .ldots { padding: 4px 8px; border-radius: 16px; background: #1f2937; border: 2px solid #111827; }
+.ldots .lamp.sm:first-child { margin-left: 0; }
+.lrow { padding: 6px; border-radius: 14px; background: #1f2937; border: 2px solid #111827; }
+.lrow .lcell { background: transparent; border-color: transparent; }
+.lrow .lcell small, .lrow .lcell .lw { color: #cbd5e1; }
 #mlightPh .lnote { padding: 0 10px 3px; }
 /* (10/19) 신호등 제목 */
 .lwrap { display: flex; flex-direction: column; gap: 6px; }
@@ -1482,6 +1488,7 @@ function show(code, rerender = true) {
 
     const f = FM();
     const hs = r[f.score];
+    const sg = mode === "short" && SIGX[r.code];   // (10/24) 타점 종목: 큰 글씨 = 익절까지 %, 아래 = 차트 점수 + 원래 등급
 
     $("detail").innerHTML = `
         <div class="navrow"><button class="back" type="button" onclick="history.back()">← 목록으로</button>
@@ -1491,9 +1498,9 @@ function show(code, rerender = true) {
         ${watchInfo(r)}
         ${r.cond_note ? `<p class="watchinfo">ℹ ${esc(r.cond_note)} · 최근 조건에 걸렸던 종목이라 계속 분석 중이에요</p>` : ""}
         ${introHtml(r)}
-        <div><span class="score">${hs == null ? "-" : num(hs) + "점"}</span>
+        <div>${sg ? `익절까지 <span class="score">${toTake(r)}</span>` : `<span class="score">${hs == null ? "-" : num(hs) + "점"}</span>`}
              / ${esc(r[f.grade] ?? "-")} · 현재가 ${num(r.price)}원${vwapText(r)}</div>
-        <div class="info" style="margin:2px 0 0">단기 ${num(r.score)}점 ${esc(r.grade)}
+        <div class="info" style="margin:2px 0 0">${sg ? `차트 점수 ${num(r.score)}점 ${esc(r.grade0 ?? "-")}` : `단기 ${num(r.score)}점 ${esc(r.grade)}`}
              · 중기 ${r.mid_score == null ? "데이터 부족" : num(r.mid_score) + "점 " + esc(r.mid_grade)}</div>
         ${uniHtml(r)}
         ${indHtml(r)}
