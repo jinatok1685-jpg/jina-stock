@@ -189,6 +189,7 @@ small { color: var(--sub); }
 .detail h2 .star { font-size: 22px; }
 .watchinfo { font-size: 12.5px; color: var(--sub); margin: 2px 0 0; }
 .sigic { margin-left: 4px; letter-spacing: 1px; }
+.tk { color: #e03131; }
 .sigbox { background: #fff4e6; border-radius: 6px; padding: 6px 8px; color: #333; margin: 4px 0 6px; }
 .cnote { color: #868e96; }
 .watchinfo b.u { color: #e03131; } .watchinfo b.d { color: #1c7ed6; }
@@ -622,7 +623,7 @@ table.heat th.hs small.fl { margin-top: 2px; }
                     <tr>
                         <th data-k="name">종목</th>
                         <th data-k="price">현재가</th>
-                        <th data-k="score">점수</th>
+                        <th data-k="score">점수<br><small>익절까지</small></th>
                         <th data-k="grade">등급</th>
                         <th data-k="phase">매매단계</th>
                     </tr>
@@ -761,7 +762,7 @@ table.heat th.hs small.fl { margin-top: 2px; }
         <li><b>종목 이름 아래 한 줄</b> : 업종과 어떤 일을 하는 회사인지 알려줘요. <b>업종 단추</b>를 누르면 같은 업종 종목만 모아 보여요.
             옆의 <b>📈 차트 보기</b>를 누르면 네이버 증권 차트가 새 창으로 열려요.</li>
         <li><b>📊 종목 요약</b> : 종목 상세 맨 위 카드 하나에 🌊 흐름(중파동·소파동·박스권) · 📈 추세(차트 추세) · 📍 위치(위 저항과 아래 지지, 전고점 매물) · 💰 수급(외국인·기관·주요거래원) · ⚡ 신호 · ⚠ 주의(위험 요소·등급 제한)를 모아 보여줘요. 예전의 세 줄 요약·추세 브리핑·단기 스윙 분석을 겹치는 것 없이 합친 거예요.</li>
-        <li><b>🎯 익절</b> : A·B급이면 하루 +8% 이상 장대양봉으로 마감한 날 종가에 정리하는 기준 가격을 보여줘요. 시장 흐름이 '약한 편'이면 +5%로 낮춰요.
+
             과거 862건(2/9~9/14) 검증에서 A·B급은 이렇게 판 경우가 20일 그냥 보유보다 승률이 약 10%p 높았어요. 참고용이에요.</li>
         <li><b>참여자 평균단가</b> : 점수 옆에 최근 20거래일 동안 거래된 가격을 거래량으로 가중 평균한 값(VWAP)을 '참여자 평균단가 추정'으로 보여줘요. 최근 한 달 동안 산 사람들의 대략적인 평균 가격이에요.</li>
         <li><b>파란 분석 박스</b> : 선택한 기준의 핵심을 강함·약함·양호·적음·많음처럼 간단한 말로 보여줘요.</li>
@@ -791,7 +792,7 @@ table.heat th.hs small.fl { margin-top: 2px; }
     <ul>
         <li><b>🔥</b> 불꽃 = 초록 화살표 + 밴드 하단 + Ratio -0.1 아래 + Speed 2일 연속 상승 (검증 20일 +9.1%, 승률 54%)</li>
         <li>🔥 없는 줄 = 바닥 타점 (초록 화살표 + 밴드 하단) · <b>⭐</b> = 밴드 상단까지 거리가 신호 봉 몸통의 2배 이상 (손익비 1.95) · <b>💧</b> = VWAP(20일) 아래에서 나온 신호 (밴드 상단 익절 거래당 약 2배)</li>
-        <li><b>새로</b> = 오늘 나온 신호 · 줄을 누르면 손절선·익절선이 보여요</li>
+        <li>타점 종목은 종목명 뒤에 🔥/🎯 표시, 점수 칸엔 익절선까지 남은 %가 나와요</li>
         <li>진입 = 신호 날 종가 또는 다음 날 시가 · 익절 = 밴드 상단 닿으면 · 손절 = 종가가 신호 봉 시가 아래 · 참고용</li>
     </ul>
 
@@ -871,11 +872,21 @@ const warnBadge = (r) => r.warn_state ? `<span class="warnb">⚠ ${esc(r.warn_st
 const SIGX = {};
 const sigIcons = (r) => { const x = SIGX[r.code]; return x ? `<span class="sigic">${x.best ? "🔥" : "🎯"}${x.room ? "⭐" : ""}${x.low ? "💧" : ""}</span>` : ""; };
 const sdd = (d) => d ? `${d.slice(4, 6)}/${d.slice(6, 8)}` : "";
+function toTake(r) {   // (10/24) 타점 종목 점수 칸 = 익절선(밴드 상단)까지 남은 % (계산값, 참고용)
+    const x = SIGX[r.code];
+    if (x.state === "yang") return '<span class="tk">대기</span>';
+    const p = r.price || x.c;
+    if (!p || !x.mid) return "-";
+    const v = (x.mid / p - 1) * 100;
+    return `<span class="tk">${v > 0 ? "+" + v.toFixed(1) + "%" : "도달"}</span>`;
+}
 function sigInfo(r) {
     const x = SIGX[r.code];
     if (!x) return "";
-    return `<p class="watchinfo sigbox">${sigIcons(r)} 신호 ${sdd(x.d)}${x.days === 0 ? " (오늘)" : ` (${x.days}일 전)`} · ${x.state === "yang"
-        ? "첫 양봉 나오면 매수 · 손절선 = 그 양봉 시가" : `${x.ed ? `매수 ${sdd(x.ed)} · ` : ""}손절선 <b>${num(x.stop)}</b>`} · 익절선 <b>${num(x.mid)}</b>${x.warn && x.warn.length ? `<br>⚠ ${esc(x.warn.join(" · "))}` : ""}</p>`;
+    // (10/24) 화면엔 신호일·매수일만 (손절선·익절선·Power/Speed 경고는 계산만 하고 안 보여 줌)
+    const w = (x.warn || []).filter((t) => !/Power|Speed/.test(t));
+    return `<p class="watchinfo sigbox">${sigIcons(r)} 신호 ${sdd(x.d)}${x.days === 0 ? " (오늘)" : ` (${x.days}일 전)`}${x.state === "yang"
+        ? " · 양봉 대기" : x.ed ? ` · 매수 ${sdd(x.ed)}` : ""}${w.length ? `<br>⚠ ${esc(w.join(" · "))}` : ""}</p>`;
 }
 
 function fill(sel, key) {
@@ -1141,6 +1152,10 @@ function filtered() {
         && waveMatch(r, $("wave").value)
         && (!secPick || r.sector === secPick)
     ).sort((a, b) => {
+        if (sortKey === "score" && mode === "short") {     // (10/24) 점수순이어도 타점 종목이 맨 위
+            const sa = SIGX[a.code] ? 1 : 0, sb = SIGX[b.code] ? 1 : 0;
+            if (sa !== sb) return sb - sa;
+        }
         const x = a[key], y = b[key];
         const nx = x === null || x === undefined, ny = y === null || y === undefined;
         if (nx || ny) return nx && ny ? 0 : (nx ? 1 : -1);   // 값 없는 종목은 맨 아래
@@ -1171,7 +1186,7 @@ function renderList() {
         <tr data-c="${esc(r.code)}" class="${r.code === picked ? "pick" : ""}">
             <td class="l">${starBtn(r.code)}<b>${esc(r.name)}</b>${sigIcons(r)}${warnBadge(r)}<br><small>${esc(r.code)}</small></td>
             <td>${num(r.price)}</td>
-            <td><b>${r[FM().score] == null ? "-" : num(r[FM().score])}</b></td>
+            <td><b>${mode === "short" && SIGX[r.code] ? toTake(r) : r[FM().score] == null ? "-" : num(r[FM().score])}</b></td>
             <td>${esc(r[FM().grade] ?? "-")}${mode === "short" && r.credit_outlook
                 ? `<br><small>${esc(r.credit_outlook)}</small>` : ""}</td>
             <td>${esc(r[FM().phase] ?? "데이터 부족")}${r.cond_note
@@ -1358,7 +1373,6 @@ function uniHtml(r) {
             ${row("📍 위치", pos)}
             ${row("💰 수급", flowTxt)}
             ${row("⚡ 신호", sigs || "눈에 띄는 신호 없음")}
-            ${row("🎯 익절", takeText(r))}
             ${row("⚠ 주의", warn)}
         </div></div>`;
 }
