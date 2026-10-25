@@ -146,6 +146,37 @@ table.heat td.hc:not(.z):hover { outline: 2px solid var(--text); }
 .hfoot { font-size: 12px; color: var(--sub); margin: 8px 0 0; }
 @media (max-width: 800px) { #secPage .box { margin: 0; min-height: 100%; border-radius: 0; border: 0; } }
 @media (prefers-color-scheme: dark) and (min-width: 100000px) { #secBtn.on { color: #ff8787; } }
+#ftBtn { padding: 6px 12px; font-size: 13px; font-weight: bold; cursor: pointer; border-radius: 8px;
+         border: 1.5px solid #e8590c; background: var(--card); color: var(--text); }
+#ftPage { display: none; position: fixed; inset: 0; z-index: 60;
+          background: rgba(0, 0, 0, .55); overflow-y: auto; -webkit-overflow-scrolling: touch; }
+#ftPage.on { display: block; }
+#ftPage .box { max-width: 640px; margin: 16px auto; background: var(--card); color: var(--text);
+               border: 1px solid var(--line); border-radius: 12px; padding: 16px 16px 20px; font-size: 14px; }
+#ftPage .sphead { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+#ftPage h2 { margin: 0; font-size: 18px; }
+#ftPage .sub { color: var(--sub); font-size: 12.5px; margin: 6px 0 10px; }
+#ftPage .sub b { color: #e03131; }
+#ftPage .spx { padding: 6px 12px; font-size: 13px; font-weight: bold; cursor: pointer; border-radius: 8px;
+               border: 1px solid var(--line); background: var(--head); color: var(--text); white-space: nowrap; }
+.ftc { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin: 0 0 8px;
+       cursor: pointer; background: var(--card); }
+.ftc:hover { background: var(--hover); }
+.ftc.hot { border: 1.5px solid #f08c00; background: #fff8ef; }
+.ftc .r1 { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.ftc .nm { font-size: 15px; font-weight: bold; }
+.ftc .nm small { font-weight: normal; margin-left: 4px; }
+.ftc .tt { font-size: 13px; color: var(--sub); white-space: nowrap; }
+.ftc .tt .tk { font-size: 16px; font-weight: bold; }
+.ftc .r2 { font-size: 12.5px; color: var(--sub); margin-top: 4px; line-height: 1.5; }
+.ftc .r2 b { color: #e03131; }
+.ftc .r2 .wn { color: #c92a2a; }
+.ftnone { padding: 30px 10px; text-align: center; color: var(--sub); }
+@media (max-width: 800px) {
+    #ftPage .box { margin: 0; min-height: 100%; border-radius: 0; border: 0; }
+    .watchrow { gap: 5px; }
+    .watchrow button { padding: 6px 7px !important; font-size: 12px !important; }
+}
 #homeBack { display: none; padding: 6px 12px; font-size: 13px; font-weight: bold; cursor: pointer;
             border-radius: 8px; border: 1.5px solid #a9cdf3; background: var(--card); color: var(--accent); }
 #homeBack.on { display: inline-block; }
@@ -612,10 +643,11 @@ table.heat th.hs small.fl { margin-top: 2px; }
             <button id="manualBtn" type="button">📖 사용방법</button>
         </div>
         <div class="watchrow">
-            <button id="watchBtn" type="button">⭐ 관심종목 (0)</button>
-            <button id="homeBack" type="button" data-home="1">← 처음으로</button>
-            <button id="secBtn" type="button">📊 업종</button>
-            <button id="goLeader" type="button">🔥 주도주</button>
+            <button id="watchBtn" type="button">관심종목 (0)</button>
+            <button id="homeBack" type="button" data-home="1">← 첫화면</button>
+            <button id="secBtn" type="button">업종</button>
+            <button id="goLeader" type="button">주도주</button>
+            <button id="ftBtn" type="button">특징주</button>
         </div>
         <div id="btpBox"></div>
         <div class="seg" id="seg">
@@ -661,6 +693,14 @@ table.heat th.hs small.fl { margin-top: 2px; }
 </div>
 </div>
 
+<div id="ftPage" aria-hidden="true">
+    <div class="box">
+        <div class="sphead"><h2>특징주</h2>
+            <button type="button" class="spx" id="ftClose">✕ 닫기</button></div>
+        <div id="ftBody"></div>
+    </div>
+</div>
+
 <div id="secPage" aria-hidden="true">
     <div class="box">
         <div class="sphead"><h2>📊 업종 흐름</h2>
@@ -693,7 +733,7 @@ table.heat th.hs small.fl { margin-top: 2px; }
         <li>등급 선택은 <b>S / A / B / C / D / 등외</b> 중에서 골라요.
             괄호 안 숫자는 그 등급의 종목 수예요.</li>
         <li>가장 최근 분석에 포함된 종목만 보여요. 조건에서 빠진 종목은 목록에서 사라져요.</li>
-        <li>종목 이름 앞 <b>☆</b>을 누르면 <b>⭐ 관심종목</b>에 담겨요. 목록 위 <b>⭐ 관심종목</b> 버튼을 누르면 담은 종목만 모아 보고,
+        <li>종목 이름 앞 <b>☆</b>을 누르면 <b>관심종목</b>에 담겨요. 목록 위 <b>관심종목</b> 버튼을 누르면 담은 종목만 모아 보고,
             상세 화면에서 담은 날 가격 대비 등락도 볼 수 있어요. 관심종목은 지금 쓰는 브라우저(기기)에 저장돼요.
             ⭐를 한 번 더 누르면 관심종목에서 빠져요.</li>
         <li>최근 5일 안에 분석 조건에 걸렸던 종목은 조건에서 빠져도 며칠 동안 계속 분석해요.
@@ -752,9 +792,10 @@ table.heat th.hs small.fl { margin-top: 2px; }
         <li><b>돌파 · 전환 · 유지중 · 이탈</b> : 돌파는 위 경계를 막 뚫은 것, 전환은 뚫거나 깬 자리를
             며칠 이상 지켜서 흐름이 새로 바뀐 것(약 2개월까지), 유지중은 그 흐름이 이어지는 것,
             이탈은 아래 경계를 깬 것이에요. 중파동과 소파동 모두 같은 말로 표시해요.</li>
-        <li><b>파동 선택 · 📊 업종</b> : 검색창 옆 '파동' 상자로 중파동 국면별로 골라 볼 수 있고,
-            '📊 업종' 단추를 누르면 업종별 상승 국면 종목 수와 업종 흐름(최근 5일 평균 등락, 20일선 위 종목 비율과 그 추이)이 나오고,
-            업종을 누르면 그 업종 종목만 보여요. 위쪽 '정렬'로 순서를 바꿀 수 있어요. '← 처음으로'를 누르면 원래대로 돌아가요.</li>
+        <li><b>파동 선택 · 업종</b> : 검색창 옆 '파동' 상자로 중파동 국면별로 골라 볼 수 있고,
+            '업종' 단추를 누르면 업종별 상승 국면 종목 수와 업종 흐름(최근 5일 평균 등락, 20일선 위 종목 비율과 그 추이)이 나오고,
+            업종을 누르면 그 업종 종목만 보여요. 위쪽 '정렬'로 순서를 바꿀 수 있어요. '← 첫화면'을 누르면 원래대로 돌아가요.</li>
+        <li><b>특징주</b> : 지금 진행 중인 신호(🔥·🎯) 종목만 모아 보여요. 🔥⭐💧 → 🔥⭐ → 🔥 → 🎯 순서이고, 종목을 누르면 상세 화면이 열려요.</li>
         <li><b>📈 시장 흐름</b> : 맨 위에 오늘 분석한 종목들의 평균 등락(오늘·5일·20일)과 20일선 위에 있는 종목 비율을 보여줘요.
             지수(코스피·코스닥)가 아니라 분석 종목 평균이라 조금 다를 수 있어요. 20일선 위 종목이 60% 이상이면 '강한 편', 30% 이하면 '약한 편'이에요.
             시장 전체가 약할 때는 등급이 좋은 종목도 같이 흔들릴 수 있어요.</li>
@@ -953,7 +994,7 @@ function toggleWatch(code) {
 }
 function updateWatchBtn() {
     const n = DATA.filter((r) => isWatched(r.code)).length;
-    $("watchBtn").textContent = `⭐ 관심종목 (${n})`;
+    $("watchBtn").textContent = `관심종목 (${n})`;
     $("watchBtn").classList.toggle("on", watchOnly);
 }
 function watchInfo(r) {
@@ -984,6 +1025,7 @@ function goHome() {
     }
     if ($("manual").classList.contains("on")) closeManual();
     closeSecPage(false);
+    closeFtPage(false);
     $("q").value = "";
     watchOnly = false;
     mode = "short";
@@ -1016,7 +1058,7 @@ function waveMatch(r, v) {
     }
 }
 function updateSecBtn() {
-    $("secBtn").textContent = secPick ? `📊 ${secPick} ✕` : "📊 업종";
+    $("secBtn").textContent = secPick ? `${secPick} ✕` : "업종";
     $("secBtn").classList.toggle("on", !!secPick);
 }
 // 업종 × 중파동 국면 히트맵: 칸 색 진하기 = 그 업종 안에서의 비율 (상승=빨강, 박스=회색, 조정=주황, 하락=파랑)
@@ -1132,6 +1174,42 @@ function renderSecPage() {
         </table>
         <p class="hfoot">업종 이름을 누르면 그 업종 전체, 칸을 누르면 그 업종의 그 국면 종목만 보여요.${FLOW
             ? "<br>업종 이름 아래: 최근 5일 평균 등락 · 20일선 위 종목 비율과 최근 20일 추이 · 상승 국면 종목 수가 어제보다 늘거나 줄었으면 그 수" : ""}</p>`;
+}
+// ---- (10/25) 특징주: 진행 중인 신호 종목만 모아 보기 ----
+const ftRank = (x) => x.best && x.room && x.low ? 0 : x.best && x.room ? 1 : x.best ? 2 : 3;
+function renderFtPage() {
+    const rows = DATA.filter((r) => SIGX[r.code]).sort((a, b) => {
+        const x = SIGX[a.code], y = SIGX[b.code];
+        return ftRank(x) - ftRank(y) || (x.days ?? 99) - (y.days ?? 99) || (y.m || 0) - (x.m || 0);
+    });
+    const hot = rows.filter((r) => { const x = SIGX[r.code]; return x.best && x.room && x.m >= 5; }).length;
+    const card = (r) => {
+        const x = SIGX[r.code], hotc = x.best && x.room && x.m >= 5;
+        const t = [`신호 ${sdd(x.d)}${x.days === 0 ? " (오늘)" : ` (${x.days}일 전)`}`];
+        if (x.state === "yang") t.push("양봉 대기");
+        if (x.m) t.push(`같은 날 신호 ${x.m}개${x.m >= 5 ? " · <b>몰림</b>" : ""}`);
+        const sup = supTxt(x).replace("<br>", "");
+        const l3 = [sup, x.cr >= 6 ? `<span class="wn">⚠ 신용잔고율 ${Number(x.cr).toFixed(1)}%</span>` : ""].filter(Boolean).join(" · ");
+        return `<div class="ftc${hotc ? " hot" : ""}" data-ft="${esc(r.code)}">
+            <div class="r1"><span class="nm">${esc(r.name)}${sigIcons(r)}${warnBadge(r)}<small>${esc(r.code)}</small></span>
+                <span class="tt">익절까지 ${toTake(r)}</span></div>
+            <div class="r2">현재가 ${num(r.price)}원 · ${t.join(" · ")}${l3 ? `<br>${l3}` : ""}</div></div>`;
+    };
+    $("ftBody").innerHTML = rows.length
+        ? `<p class="sub">진행 중 신호 ${rows.length}개 · <b>🔥⭐ 이상 + 몰림 ${hot}개</b> · 참고용, 매매 추천 아님</p>${rows.map(card).join("")}`
+        : `<div class="ftnone">지금 진행 중인 신호가 없어요.</div>`;
+}
+function openFtPage() {
+    renderFtPage();
+    $("ftPage").classList.add("on");
+    document.body.style.overflow = "hidden";
+    history.pushState({ ft: 1 }, "", "#feature");
+}
+function closeFtPage(fromPop) {
+    if (!$("ftPage").classList.contains("on")) return;
+    $("ftPage").classList.remove("on");
+    document.body.style.overflow = "";
+    if (!fromPop && location.hash === "#feature") history.back();
 }
 function openSecPage() {
     renderSecPage();
@@ -1528,6 +1606,7 @@ function enterDetail() {
     window.scrollTo(0, 0);
 }
 window.addEventListener("popstate", () => {
+    if ($("ftPage").classList.contains("on")) { closeFtPage(true); return; }
     if ($("secPage").classList.contains("on")) { closeSecPage(true); return; }
     if (document.body.classList.contains("dv")) {
         document.body.classList.remove("dv");
@@ -1695,6 +1774,23 @@ function leaderUrl() {   // (10/23) 주도주 화면 주소 (친구 주소 / PC 
         : p.includes("/올릴파일/") ? "../../주도주/지나_주도주.html" : "../주도주/지나_주도주.html";
 }
 $("goLeader").addEventListener("click", () => { location.href = leaderUrl(); });
+$("ftBtn").addEventListener("click", openFtPage);
+$("ftClose").addEventListener("click", () => closeFtPage(false));
+$("ftPage").addEventListener("click", (e) => {
+    if (e.target === $("ftPage")) { closeFtPage(false); return; }
+    const c = e.target.closest("[data-ft]");
+    if (!c) return;
+    $("ftPage").classList.remove("on");
+    document.body.style.overflow = "";
+    if (mode !== "short") document.querySelector('#seg button[data-m="short"]').click();
+    show(c.dataset.ft);
+    if (isMobile()) {             // 휴대폰: 특징주 화면 자리를 상세 화면으로 바꿈 (뒤로 가기 = 목록)
+        listScroll = window.scrollY;
+        document.body.classList.add("dv");
+        history.replaceState({ dv: 1 }, "", "#detail");
+        window.scrollTo(0, 0);
+    } else if (location.hash === "#feature") history.back();
+});
 function startApp() {
     prepData();
     if (FLOW) { $("mflow").innerHTML = mktHtml(); $("mflow").style.display = ""; }
