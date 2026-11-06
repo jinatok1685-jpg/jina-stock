@@ -1413,9 +1413,9 @@ function renderResPage() {
         <table class="rst"><thead><tr><th>점수</th><th>끝난 신호</th><th>승률</th><th>거래당</th><th>보유</th></tr></thead><tbody>
         ${stat("90점↑ (산다)", R.filter((r) => r.score >= 90), true)}${stat("80~89점", R.filter((r) => r.score < 90))}${stat("전체", R)}${OWNV ? stat("모의 대상 (90점↑·후보 거침, -10% 손절)", R.filter((r) => r.mt)) + stat("후보 거친 신호", R.filter((r) => r.cp)) : ""}
         ${stat("90점↑ · 구름 보유", RD.filter((r) => r.score >= 90))}${stat("전체 · 구름 보유", RD)}</tbody></table>
-        ${list.length ? `<table class="rst rsl"><thead><tr><th>종목</th><th>포착일</th><th>매수가</th><th>최고가</th><th>손절가</th><th>결과</th></tr></thead><tbody>
+        ${list.length ? `<table class="rst rsl"><thead><tr><th>종목</th><th>포착일</th><th>매수가</th><th>최고가</th><th>결과</th></tr></thead><tbody>
         ${list.map((r) => `<tr data-rc="${esc(r.code)}"><td><b>${esc(r.name)}</b><br><small>${r.score}점${OWNV && r.cp ? " · 후보 거침" : ""}</small></td><td>${dd(r.d)}${r.ed && r.ed !== r.d ? `<br><small>매수 ${dd(r.ed)}</small>` : ""}</td><td>${num(r.c0)}</td>
-            <td>${hiTxt(r)}</td><td>${r.stop == null ? "-" : num(r.stop)}${pc(r.stop, r.c0)}</td><td>${resTxt(r)}</td></tr>`).join("")}</tbody></table>`
+            <td>${hiTxt(r)}</td><td>${resTxt(r)}</td></tr>`).join("")}</tbody></table>`
         : `<div class="ftnone">해당하는 신호가 없어요.</div>`}`;
 }
 function openResPage() {
