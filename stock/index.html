@@ -1388,7 +1388,7 @@ function renderResPage() {
     const G = META.res;
     document.querySelectorAll("#resF button").forEach((x) => x.classList.toggle("on", x.dataset.rf === resFilter));
     if (!G || !G.rows) { $("resBody").innerHTML = `<div class="ftnone">실전 기록이 아직 없어요.</div>`; return; }
-    const ALL = OWNV ? G.rows.map((r) => r.m10 ? { ...r, ...r.m10, live: r.m10.state === "wait", mt: 1 } : r) : G.rows;   // (11/6) 본인 화면: 모의 대상 = -10% 종가 손절 결과
+    const ALL = OWNV ? G.rows.map((r) => r.m10 ? { ...r, ...r.m10, live: r.m10.state === "wait", mt: 1 } : r) : G.rows.map((r) => r.live || r.ret == null ? r : { ...r, ret: r.ret + (G.cost || 0), dret: r.dret == null ? null : r.dret + (G.cost || 0) });   // (11/6 밤) 친구 화면: 비용 안 뺌   // (11/6) 본인 화면: 모의 대상 = -10% 종가 손절 결과
     const R = ALL.filter((r) => !r.live), sg =(v) => v == null ? "-" : `<span class="${v > 0 ? "u" : v < 0 ? "d" : ""}">${v > 0 ? "+" : ""}${Number(v).toFixed(1)}%</span>`;
     const stat = (lab, rs, hi) => {
         if (!rs.length) return `<tr${hi ? ' class="hi"' : ""}><td>${lab}</td><td>0</td><td>-</td><td>-</td><td>-</td></tr>`;
@@ -1409,11 +1409,11 @@ function renderResPage() {
     // (10/29) 구름 보유(D) = 밴드 상단 전 구름 돌파면 구름 상단 아래 마감까지. 끝난 것만 셈
     const RD = R.filter((r) => r.dret != null).map((r) => ({ ...r, ret: r.dret, hold: r.dhold }));
     const dTxt = (r) => r.dst === "hold" ? `<br><small>구름 보유 중</small>` : r.dret != null && Math.abs(r.dret - r.ret) > 0.01 ? `<br><small>구름 보유 ${sg(r.dret)}</small>` : "";
-    $("resBody").innerHTML = `<p class="sub">끝난 신호 ${R.length}개 · 진행 중 ${ALL.filter((r) => r.live).length}개${G.hot ? ` · 과열 뒤 ${G.hot}개 뺌` : ""}${G.since ? ` · ${dd(G.since)}부터` : ""} · 비용 ${G.cost}% 뺀 값${OWNV ? " · 90점↑·후보 거침은 종가 -10% 손절" : ""}</p>
+    $("resBody").innerHTML = `${OWNV ? `<p class="sub">끝난 신호 ${R.length}개 · 진행 중 ${ALL.filter((r) => r.live).length}개${G.hot ? ` · 과열 뒤 ${G.hot}개 뺌` : ""}${G.since ? ` · ${dd(G.since)}부터` : ""} · 비용 ${G.cost}% 뺀 값${OWNV ? " · 90점↑·후보 거침은 종가 -10% 손절" : ""}</p>
         <table class="rst"><thead><tr><th>점수</th><th>끝난 신호</th><th>승률</th><th>거래당</th><th>보유</th></tr></thead><tbody>
         ${stat("90점↑ (산다)", R.filter((r) => r.score >= 90), true)}${stat("80~89점", R.filter((r) => r.score < 90))}${stat("전체", R)}${OWNV ? stat("모의 대상 (90점↑·후보 거침, -10% 손절)", R.filter((r) => r.mt)) + stat("후보 거친 신호", R.filter((r) => r.cp)) : ""}
-        ${stat("90점↑ · 구름 보유", RD.filter((r) => r.score >= 90))}${stat("전체 · 구름 보유", RD)}</tbody></table>
-        ${list.length ? `<table class="rst rsl"><thead><tr><th>종목</th><th>포착일</th><th>매수가</th><th>최고가</th><th>결과</th></tr></thead><tbody>
+        ${stat("90점↑ · 구름 보유", RD.filter((r) => r.score >= 90))}${stat("전체 · 구름 보유", RD)}</tbody></table>` : ""}
+        ${list.length ? `<table class="rst rsl"><thead><tr><th>종목</th><th>포착일</th><th>매수가</th><th>${OWNV ? "최고가" : "고가"}</th><th>결과</th></tr></thead><tbody>
         ${list.map((r) => `<tr data-rc="${esc(r.code)}"><td><b>${esc(r.name)}</b><br><small>${r.score}점${OWNV && r.cp ? " · 후보 거침" : ""}</small></td><td>${dd(r.d)}${r.ed && r.ed !== r.d ? `<br><small>매수 ${dd(r.ed)}</small>` : ""}</td><td>${num(r.c0)}</td>
             <td>${hiTxt(r)}</td><td>${resTxt(r)}</td></tr>`).join("")}</tbody></table>`
         : `<div class="ftnone">해당하는 신호가 없어요.</div>`}`;
@@ -2331,3 +2331,5 @@ if (VAULT) {
 </html>
 
 <!-- 11/6 손절가 칸 뺌 다시 올림 -->
+
+<!-- 11/6 친구 성적 표 뺌 -->
