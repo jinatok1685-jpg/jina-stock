@@ -243,6 +243,7 @@ table.stb tr:hover td { background: var(--hover); }
 .resf { display: flex; gap: 6px; margin: 10px 0; }
 .resf button { padding: 5px 12px; font-size: 13px; border-radius: 16px; border: 1px solid var(--line); background: var(--card); color: var(--text); cursor: pointer; }
 .resf button.on { background: #2f9e44; border-color: #2f9e44; color: #fff; font-weight: bold; }
+small.slp { color: var(--sub); font-size: 11.5px; }
 table.rst { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 10px; }
 table.rst th { font-size: 11.5px; color: var(--sub); font-weight: normal; padding: 6px 4px; border-bottom: 1px solid var(--line); text-align: right; }
 table.rst td { padding: 7px 4px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
@@ -986,6 +987,11 @@ var TIER = { 20: "86% +11.4% · 최악 -18% · 평균 9일", 15: "76% +5.9% · �
 function tierPct(x, v) { return gjN(x, v) >= 2 ? 20 : x.p60 != null && x.p60 <= -10 ? 15 : 10; }
 const man = (w) => `${num(Math.round(w / 10000))}만원`;
 function tgtScore(x) { return Math.max(80, sigBase(x) - crPen(x.cr) - upPen(x)); }
+function slTxt(r) {   // (11/7) 첫 목록: 성적에 올라갈 종목(모의 대상, -10% 진행 중)만 현재가 아래 손절가 숫자
+    const x = SIGX[r.code];
+    if (!RULE10 || !x || !x.c10 || x.s10 !== "wait" || !(x.cp || tgtScore(x) >= 90)) return "";
+    return `<br><small class="slp">${num(Math.round(x.c10 * 0.9))}</small>`;
+}
 function heldList() {   // 이미 산 모의 대상 (어제까지 신호, -10% 손절·익절·20일 전)
     if (!OWNV) return [];
     return ((META.bottom && META.bottom.rows) || []).filter((x) => x.days > 0 && x.s10 === "wait" && x.c10 && (x.cp || tgtScore(x) >= 90))
@@ -1689,7 +1695,7 @@ function renderList() {
     $("tbody").innerHTML = rows.map((r) => `
         <tr data-c="${esc(r.code)}" class="${r.code === picked ? "pick" : ""}">
             <td class="l">${starBtn(r.code)}<b>${esc(r.name)}</b>${sigIcons(r)}${warnBadge(r)}<br><small>${esc(r.code)}</small></td>
-            <td>${num(r.price)}</td>
+            <td>${num(r.price)}${slTxt(r)}</td>
             <td><b>${r[FM().score] == null ? "-" : num(r[FM().score])}</b>${mode === "short" && r.sname ? `<br><small class="snm">${r.sname}</small>` : ""}</td>
             <td>${esc(r[FM().grade] ?? "-")}</td>
             <td>${esc((mode === "short" ? r.phase : r[FM().phase]) ?? "데이터 부족")}</td>
