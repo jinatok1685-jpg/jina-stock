@@ -778,7 +778,7 @@ render();
 <div id="jtTabs"></div><div id="jtSp"></div>
 <script>
 (function () {
-    const T = [["MAIN", ""], ["관심종목", "watch"], ["TODAY", "feature"], ["성적", "result"], ["섹터", "sector"], ["TEMP", "credit"], ["DOW·NAS", "us"]];
+    const T = [["TODAY", ""], ["검색", "main"], ["관심종목", "watch"], ["성적", "result"], ["섹터", "sector"], ["TEMP", "credit"], ["DOW·NAS", "us"]];
     const bar = document.getElementById("jtTabs");
     document.body.prepend(bar, document.getElementById("jtSp"));
     bar.innerHTML = T.map(([n, h]) => `<a href="${stockUrl("") + (h ? "#" + h : "")}">${n}</a>`).join("") + '<a class="on" href="#">주도주</a>';

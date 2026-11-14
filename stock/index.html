@@ -801,7 +801,7 @@ table.heat th.hs small.fl { margin-top: 2px; }
         </div>
         <div class="watchrow">
             <button id="watchBtn" type="button">관종 (0)</button>
-            <button id="homeBack" type="button" data-home="1">← MAIN</button>
+            <button id="homeBack" type="button" data-home="1">← 검색</button>
             <button id="secBtn" type="button">업종</button>
             <button id="goLeader" type="button">주도주</button>
             <button id="ftBtn" type="button">특징주</button>
@@ -856,8 +856,7 @@ table.heat th.hs small.fl { margin-top: 2px; }
 
 <div id="ftPage" aria-hidden="true">
     <div class="box">
-        <div class="sphead"><h2>TODAY</h2>
-            <button type="button" class="spx" id="ftClose">✕ 닫기</button></div>
+        <div class="sphead"><h2>TODAY</h2></div>
         <div id="ftBody"></div>
     </div>
 </div>
@@ -1358,7 +1357,13 @@ function renderSecPage() {
 }
 // ---- (10/25) 특징주: 진행 중인 신호 종목만 모아 보기 ----
 function renderFtPage() {
-    const rows = DATA.filter((r) => SIGX[r.code] && SIGX[r.code].days === 0 && r.ph !== "타점 지남").sort((a, b) => {   // (10/27) 타점 지남은 뺌 · (11/13) 오늘 나온 신호만 (보유 중·타점대기 카드 뺌)
+    const dayRows = (k) => DATA.filter((r) => SIGX[r.code] && SIGX[r.code].days === k && r.ph !== "타점 지남");
+    let rows = dayRows(0), last = 0;   // (11/14) 오늘 신호 0개면 마지막 신호 날 카드 (TODAY = 홈)
+    if (!rows.length) {
+        const ds = DATA.filter((r) => SIGX[r.code] && SIGX[r.code].days > 0 && r.ph !== "타점 지남").map((r) => SIGX[r.code].days);
+        if (ds.length) { last = Math.min(...ds); rows = dayRows(last); }
+    }
+    rows.sort((a, b) => {   // (10/27) 타점 지남은 뺌 · (11/13) 오늘 나온 신호만 (보유 중·타점대기 카드 뺌)
         const x = SIGX[a.code], y = SIGX[b.code];
         if (RULE10) {   // (11/5) 모의 대상(90점↑ 또는 후보 거침) 먼저 → 가점 많은 것 → 점수 높은 것
             const d = isTgt(b, y) - isTgt(a, x) || gjN(y, b.score ?? 0) - gjN(x, a.score ?? 0);
@@ -1388,13 +1393,9 @@ function renderFtPage() {
         const P = PLAN[r.code];
         if (!P) return "";
         const v = r.score ?? 0, dl = x.dl ? `${sdd(x.dl)} 종가에 매도` : "20거래일째 종가에 매도";
-        if (P.held) {
-            const now = r.price && x.c10 ? (r.price / x.c10 - 1) * 100 : null;
-            return `<div class="pln"><b>보유 중</b> · 금액 ${P.p === 40 ? "큰 판 " : ""}${P.p}% ${man(P.amt)} · 매수가 ${num(x.c10)}원${now != null ? ` (지금 ${now > 0 ? "+" : ""}${now.toFixed(1)}%)` : ""} · 기한 ${dl}</div>`;
-        }
-        if (!P.ok) return `<div class="pln"><span class="wn">금액 ${P.p}% ${man(P.amt)} · 현금 부족 (남은 돈 ${man(P.left)}) · 못 삼</span></div>`;
+        if (P.held) return "";   // (11/14 밤) 보유 중 상자 뺌 (개인정보, TODAY = 홈)
         const lim = x.mid ? `${num(Math.round(x.mid * (v >= 90 ? 1.02 : 1.01)))}원` : "-";
-        return `<div class="pln"><b>시나리오</b><br>① 금액 ${P.p === 40 ? "큰 판 " : ""}${P.all ? `남은 돈 다 ${man(P.amt)} (40% 안 됨)` : `${P.p}% · ${man(P.amt)}`}<br>② 매수 오늘 종가 ${num(x.c10)}원 · 15:40~16:00 시간외 종가, 놓치면 20:00 까지 종가 지정가<br>③ 익절 내일 아침 지정가 ${lim} (매일 아침 새 값으로)<br>④ 손절 종가가 ${num(Math.round(x.c10 * 0.9))}원 아래면 그날 15:20 동시호가 매도<br>⑤ 기한 ${dl}<br>⑥ 과거 같은 금액 묶음 ${TIER[P.p]}</div>`;
+        return `<div class="pln"><b>시나리오</b><br>① 매수 오늘 종가 ${num(x.c10)}원 · 15:40~16:00 시간외 종가, 놓치면 20:00 까지 종가 지정가<br>② 익절 내일 아침 지정가 ${lim} (매일 아침 새 값으로)<br>③ 손절 종가가 ${num(Math.round(x.c10 * 0.9))}원 아래면 그날 15:20 동시호가 매도<br>④ 기한 ${dl}<br>⑤ 과거 같은 묶음 ${TIER[P.p]}</div>`;
     };
     const card = (r) => {
         const x = SIGX[r.code], hotc = r.score >= 90;
@@ -1404,7 +1405,7 @@ function renderFtPage() {
         if (x.re) t.push(`재신호 (${sdd(x.re[0])} 신호 뒤 +${x.re[1]}% → 그 신호보다 ${x.re[2]}%)`);
         t.push(...extraTxt(x));
         const sup = supTxt(x).replace("<br>", "");
-        const pn = plan(r, x), np = pn && PLAN[r.code] && !PLAN[r.code].held && PLAN[r.code].ok;
+        const pn = plan(r, x), np = pn && PLAN[r.code] && !PLAN[r.code].held;
         const ow = ownTxt(r).filter((s) => !np || !(s.startsWith("내일 익절") || s.startsWith("손절 "))), k = tRank[r.code];
         if (k) ow.unshift(k <= 10 ? `<b>오늘 대상 ${k}번째</b>` : `<span class="wn">오늘 대상 ${k}번째 · 10건 넘음 · 안 삼</span>`);
         const l3 = [sup, tvWarn(x) ? `<span class="wn">${tvWarn(x)}</span>` : "", (x.crn ?? x.cr) >= 6 ? `<span class="wn">⚠ 신용잔고율 ${Number(x.crn ?? x.cr).toFixed(1)}%</span>` : ""].filter(Boolean).join(" · ");
@@ -1413,8 +1414,12 @@ function renderFtPage() {
                 <span class="tt"><b>${num(r.score)}점</b>${qtUp(r) ? ` <b>${esc(r.grade)}++</b>` : ""}${r.sname ? ` <b class="snm">${r.sname}</b>` : ""} · ${esc(r.phase)}</span></div>
             <div class="r2">현재가 ${num(r.price)}원 · 익절까지 ${toTake(r)} · ${t.join(" · ")}${ow.length ? `<br>${ow.join(" · ")}` : ""}${l3 ? `<br>${l3}` : ""}</div>${pn}</div>`;
     };
+    if (last) {
+        $("ftBody").innerHTML = `<p class="sub">오늘 나온 신호가 없어요 · <b>마지막 신호 ${sdd(SIGX[rows[0].code].d)}</b> (${last}일 전) · ${rows.length}개</p>${rows.map(card).join("")}`;
+        return;
+    }
     $("ftBody").innerHTML = rows.length
-        ? `<p class="sub">오늘 신호 ${rows.length}개 · <b>100점 ${s100}개 · 95점 ${s95}개 · 90점 ${s90}개</b> · 타점 ${now}개 · 타점대기 ${wait}개${cld ? ` · 구름 보유 ${cld}개` : ""}${TODAY.length ? ` · <b>오늘 모의 대상 ${TODAY.length}개${TODAY.length > 10 ? " (위 10건만 삼)" : ""}</b>` : ""}${OWNV ? `<br>예수금 ${man(CASH0)} · 보유 ${HELD.length}종목 ${man(heldAmt)}${TODAY.length ? ` · 오늘 살 돈 ${man(CASH0 - heldAmt - left)}` : ""} · 남은 돈 ${man(left)}` : ""}</p>${rows.map(card).join("")}`
+        ? `<p class="sub">오늘 신호 ${rows.length}개 · <b>100점 ${s100}개 · 95점 ${s95}개 · 90점 ${s90}개</b> · 타점 ${now}개 · 타점대기 ${wait}개${cld ? ` · 구름 보유 ${cld}개` : ""}${TODAY.length ? ` · <b>오늘 모의 대상 ${TODAY.length}개${TODAY.length > 10 ? " (위 10건만 삼)" : ""}</b>` : ""}</p>${rows.map(card).join("")}`
         : `<div class="ftnone">오늘 나온 신호가 없어요.</div>`;
 }
 // ---- (11/4) 신호 후보: 후보 많은 업종 1~3등만 (같은 수면 같이), 업종 안 장대양봉 먼저 → % 작은 순 ----
@@ -2052,10 +2057,12 @@ let listScroll = 0;
 function enterDetail() {
     listScroll = window.scrollY;
     document.body.classList.add("dv");
+    window.jtDetFrom = location.hash;   // (11/14) '' = TODAY 위 · '#main' 등 = 검색 위
     history.pushState({ dv: 1 }, "", "#detail");
     window.scrollTo(0, 0);
 }
 window.addEventListener("popstate", () => {
+    if (window.jtSkip) return;   // (11/14) 탭 줄이 TODAY 로 돌아가며 뒤로 간 것 (탭 줄 popstate 가 지움)
     if ($("ftPage").classList.contains("on")) { closeFtPage(true); return; }
     if ($("cdPage").classList.contains("on")) { closeCdPage(true); return; }
     if ($("usPage").classList.contains("on")) { closeUsPage(true); return; }
@@ -2122,8 +2129,9 @@ document.addEventListener("click", (e) => {
     updateWatchBtn();
     if (document.body.classList.contains("dv")) {     // 휴대폰: 상세 화면을 닫고 목록으로
         listScroll = 0;
-        if (location.hash === "#detail") history.back();
-        else document.body.classList.remove("dv");
+        if (location.hash === "#detail" && window.jtDetFrom) history.back();
+        else { document.body.classList.remove("dv"); if (location.hash === "#detail" || !location.hash) history.replaceState({ jt: 1 }, "", "#main"); }
+        if (window.jtMark) jtMark();
     }
     renderList();
     window.scrollTo(0, 0);
@@ -2159,7 +2167,11 @@ $("watchBtn").addEventListener("click", () => {
     renderList();
 });
 document.addEventListener("click", (e) => {
-    if (e.target.closest("[data-home], #homeTitle")) { e.preventDefault(); goHome(); }
+    if (e.target.closest("[data-home], #homeTitle")) {
+        e.preventDefault();
+        if (window.jtHome && !e.target.closest("#homeBack")) jtHome();   // (11/14) 🏠 홈 · 제목 = TODAY
+        else { goHome(); if (location.hash === "#watch") history.replaceState({ jt: 1 }, "", "#main"); if (window.jtMark) jtMark(); }
+    }
 });
 $("tbody").addEventListener("click", (e) => {
     const tr = e.target.closest("tr");
@@ -2244,9 +2256,11 @@ $("cdPage").addEventListener("click", (e) => {
     if (isMobile()) {
         listScroll = window.scrollY;
         document.body.classList.add("dv");
+        window.jtDetFrom = "";
         history.replaceState({ dv: 1 }, "", "#detail");
         window.scrollTo(0, 0);
-    } else if (location.hash === "#cand") history.back();
+    } else if (location.hash === "#cand") history.replaceState({ jt: 1 }, "", "#main");   // (11/14) 검색 탭에서 상세
+    if (window.jtMark) jtMark();
 });
 $("resBtn").addEventListener("click", openResPage);
 $("resClose").addEventListener("click", () => closeResPage(false));
@@ -2269,25 +2283,29 @@ $("resPage").addEventListener("click", (e) => {
     if (isMobile()) {
         listScroll = window.scrollY;
         document.body.classList.add("dv");
+        window.jtDetFrom = "";
         history.replaceState({ dv: 1 }, "", "#detail");
         window.scrollTo(0, 0);
-    } else if (location.hash === "#result") history.back();
+    } else if (location.hash === "#result") history.replaceState({ jt: 1 }, "", "#main");   // (11/14) 검색 탭에서 상세
+    if (window.jtMark) jtMark();
 });
-$("ftClose").addEventListener("click", () => closeFtPage(false));
-$("ftPage").addEventListener("click", (e) => {
-    if (e.target === $("ftPage")) { closeFtPage(false); return; }
+$("ftPage").addEventListener("click", (e) => {   // (11/14) TODAY = 홈 → 닫기 버튼·바깥 클릭 닫기 뺌
     const c = e.target.closest("[data-ft]");
     if (!c) return;
     $("ftPage").classList.remove("on");
     document.body.style.overflow = "";
     if (mode !== "short") document.querySelector('#seg button[data-m="short"]')?.click();
     show(c.dataset.ft);
-    if (isMobile()) {             // 휴대폰: 특징주 화면 자리를 상세 화면으로 바꿈 (뒤로 가기 = 목록)
+    if (isMobile()) {             // 휴대폰: 상세 화면 (뒤로 가기 = TODAY)
         listScroll = window.scrollY;
         document.body.classList.add("dv");
-        history.replaceState({ dv: 1 }, "", "#detail");
+        window.jtDetFrom = "";
+        if (location.hash === "#feature") history.replaceState({ dv: 1 }, "", "#detail");
+        else history.pushState({ dv: 1 }, "", "#detail");
         window.scrollTo(0, 0);
     } else if (location.hash === "#feature") history.back();
+    else if (!location.hash) history.pushState({ jt: 1 }, "", "#main");   // (11/14) PC: 검색 탭에서 상세 (뒤로 가기 = TODAY)
+    if (window.jtMark) jtMark();
 });
 function startApp() {
     prepData();
@@ -2296,7 +2314,13 @@ function startApp() {
     $("btpBox").innerHTML = btpHtml();
     setTimeout(() => {   // (10/23) 주도주 화면에서 '상세 보기'로 넘어오면 (#c=종목코드) 그 종목을 바로 연다
         const m = location.hash.match(/c=([0-9A-Z]{6})/);
-        if (m && DATA.some((x) => x.code === m[1])) { show(m[1]); if (isMobile()) enterDetail(); }
+        if (m && DATA.some((x) => x.code === m[1])) {
+            history.replaceState(null, "", location.pathname + location.search);   // (11/14) 맨 아래 = TODAY
+            history.pushState({ jt: 1 }, "", "#main");
+            window.jtDeep = true; closeFtPage(true);
+            show(m[1]); if (isMobile()) enterDetail();
+            if (window.jtMark) jtMark();
+        }
     }, 0);
     // (11/14) 주식 신호등은 MAIN 에서 빼고 TEMP 페이지 맨 위로 (renderCrPage 가 crLight 에 그림)
     $("gate").style.display = "none";
@@ -2415,9 +2439,11 @@ body.dv #jtTabs { display: none; }
 body.dv #jtSp { display: none; }
 </style>
 <script>
+const JT_H0 = location.hash;   // (11/14) 처음 주소 (#c= 는 startApp 이 TODAY 위에 #main 쌓고 jtDeep)
 setTimeout(function () {
-    const P = [{ n: "MAIN", h: "" }, { n: "관심종목", h: "watch", w: 1 },
-        { n: "TODAY", h: "feature", id: "ftPage", o: openFtPage, c: closeFtPage }];
+    // (11/14) TODAY = 홈 (맨 아래 주소 # 없음) · MAIN → 검색 (#main). 다른 탭은 TODAY 위 한 칸 (뒤로 = TODAY, TODAY 에서 뒤로 = 앱 닫힘)
+    const P = [{ n: "TODAY", h: "feature", id: "ftPage", o: openFtPage, c: closeFtPage },
+        { n: "검색", h: "main" }, { n: "관심종목", h: "watch", w: 1 }];
 
     if ($("resBtn").style.display !== "none") P.push({ n: "성적", h: "result", id: "resPage", o: openResPage, c: closeResPage });
     P.push({ n: "섹터", h: "sector", id: "secPage", o: openSecPage, c: closeSecPage });
@@ -2431,41 +2457,63 @@ setTimeout(function () {
     bar.appendChild(line); document.body.prepend(bar);
     const sp = document.createElement("div"); sp.id = "jtSp"; bar.after(sp);
     const onPage = () => { for (let i = 0; i < P.length; i++) if (P[i].id && $(P[i].id).classList.contains("on")) return i; return -1; };
-    const cur = () => { const i = onPage(); return i >= 0 ? i : (watchOnly ? 1 : 0); };
+    const cur = () => { const i = onPage(); return i >= 0 ? i : (watchOnly ? 2 : 1); };
     function mark() {
         const b = bs[cur()];
         bs.forEach((x) => x.classList.toggle("on", x === b));
         line.style.left = b.offsetLeft + "px"; line.style.width = b.offsetWidth + "px";
         bar.scrollTo({ left: b.offsetLeft - (bar.clientWidth - b.offsetWidth) / 2, behavior: "smooth" });
     }
+    window.jtMark = () => setTimeout(mark, 0);
     const uw = updateWatchBtn; updateWatchBtn = function () { uw(); mark(); };
+    function quiet(fn) {   // 페이지 열고 닫는 함수의 주소 바꾸기를 막음 (주소는 탭 줄이 정함)
+        const ps = history.pushState, bk = history.back;
+        history.pushState = function () {}; history.back = function () {};
+        try { fn(); } finally { history.pushState = ps; history.back = bk; }
+    }
+    const showToday = () => quiet(() => { if (!$("ftPage").classList.contains("on")) P[0].o(); });
     const sc = {}; let busy = false;
     const slide = (el, d) => el.animate([{ transform: `translateX(${d * 100}%)` }, { transform: "none" }],
         { duration: 280, easing: "cubic-bezier(.2,.7,.3,1)" }).finished.catch(() => {});
     function setWatch(on) { if (watchOnly !== on) $("watchBtn").click(); }
-    async function go(i) {
+    async function go(i, still) {
         const c = cur();
         if (busy || i === c || i < 0 || i >= P.length) return;
         busy = true;
         const d = i > c ? 1 : -1, pg = onPage();
         if (pg >= 0) sc[c] = $(P[pg].id).scrollTop; else sc[c] = window.scrollY;
+        quiet(() => { if (pg >= 0) P[pg].c(true); });
+        if (i === 0) {
+            if (location.hash) { window.jtSkip = true; history.back(); }
+            setWatch(false);
+        } else if (location.hash) history.replaceState({ jt: 1 }, "", "#" + P[i].h);
+        else history.pushState({ jt: 1 }, "", "#" + P[i].h);
         if (!P[i].id) {
-            if (pg >= 0) P[pg].c(false);
             setWatch(!!P[i].w);
             window.scrollTo(0, sc[i] || 0);
             mark();
-            await slide(document.querySelector(".layout"), d);
+            if (!still) await slide(document.querySelector(".layout"), d);
         } else {
-            const ps = history.pushState;
-            if (pg >= 0) { P[pg].c(true); history.pushState = function (s, t, u) { history.replaceState(s, t, u); }; }
-            try { P[i].o(); } finally { history.pushState = ps; }
+            quiet(() => P[i].o());
             const el = $(P[i].id); el.scrollTop = sc[i] || 0; el.style.zIndex = 61;
             mark();
-            await slide(el, d);
+            if (!still) await slide(el, d);
             el.style.zIndex = "";
         }
         busy = false;
     }
+    window.jtHome = function () {   // 🏠 홈 · 제목 = TODAY (맨 아래 주소까지 뒤로)
+        let n = location.hash ? 1 : 0;
+        if (document.body.classList.contains("dv")) {
+            document.body.classList.remove("dv");
+            if (location.hash === "#detail" && window.jtDetFrom) n = 2;
+        }
+        quiet(goHome);
+        if (n) { window.jtSkip = true; history.go(-n); }
+        showToday();
+        $("ftPage").scrollTop = 0;
+        mark();
+    };
     let sx = 0, sy = 0, ok = false;
     document.addEventListener("touchstart", (e) => {
         const t = e.touches[0]; sx = t.clientX; sy = t.clientY; ok = e.touches.length === 1;
@@ -2487,11 +2535,18 @@ setTimeout(function () {
         if (e.key === "ArrowRight") { if (cur() === P.length - 1) location.href = leaderUrl(); else go(cur() + 1); }
         if (e.key === "ArrowLeft") go(cur() - 1);
     });
-    window.addEventListener("popstate", () => setTimeout(mark, 0));
+    window.addEventListener("popstate", () => {
+        if (window.jtSkip) { window.jtSkip = false; setTimeout(mark, 0); return; }
+        if (!location.hash && onPage() < 0 && !document.body.classList.contains("dv")) { setWatch(false); showToday(); }   // 맨 아래 = TODAY
+        setTimeout(mark, 0);
+    });
     window.addEventListener("resize", mark);
-    const h = location.hash.slice(1);   // 주도주 화면 탭에서 넘어올 때 (#feature · #watch · #last …)
-    const k = h === "last" ? P.length - 1 : P.findIndex((p) => p.h && p.h === h);
-    if (k > 0) { history.replaceState(null, "", location.pathname + location.search); go(k); } else mark();
+    const h = JT_H0.slice(1);   // 주도주 화면 탭에서 넘어올 때 (#feature · #main · #watch · #last …)
+    if (window.jtDeep) { mark(); return; }   // 주도주 '상세 보기' = 검색 탭 (startApp 이 TODAY 위에 #main 쌓음)
+    const k = h === "last" ? P.length - 1 : P.findIndex((p) => p.h === h);
+    history.replaceState(null, "", location.pathname + location.search);
+    showToday();
+    if (k > 0) go(k, true); else mark();
 }, 0);
 </script>
 </body>
