@@ -763,4 +763,42 @@ renderTopCard();
 renderTop();
 render();
 </script>
+<!-- (11/14) 종목조회와 같은 위 탭 줄 (주도주 = 따로 있는 화면, 다른 탭은 종목조회 그 페이지로) -->
+<style>
+#jtTabs { position: fixed; top: 0; left: 0; right: 0; z-index: 70; background: var(--card); border-bottom: 1px solid var(--line);
+    display: flex; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+#jtTabs::-webkit-scrollbar { display: none; }
+#jtTabs a { flex: 0 0 auto; padding: 12px 15px; font-size: 15px; font-weight: bold; color: var(--sub); text-decoration: none; white-space: nowrap; position: relative; }
+#jtTabs a.on { color: var(--text); }
+#jtTabs a.on::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--text); border-radius: 2px; }
+#jtSp { height: 46px; }
+#dv { top: 46px !important; }
+.navrow { display: none !important; }
+</style>
+<div id="jtTabs"></div><div id="jtSp"></div>
+<script>
+(function () {
+    const T = [["MAIN", ""], ["관심종목", "watch"], ["TODAY", "feature"], ["성적", "result"], ["섹터", "sector"], ["TEMP", "credit"], ["DOW·NAS", "us"]];
+    const bar = document.getElementById("jtTabs");
+    document.body.prepend(bar, document.getElementById("jtSp"));
+    bar.innerHTML = T.map(([n, h]) => `<a href="${stockUrl("") + (h ? "#" + h : "")}">${n}</a>`).join("") + '<a class="on" href="#">주도주</a>';
+    const on = bar.lastChild;
+    on.addEventListener("click", (e) => e.preventDefault());
+    requestAnimationFrame(() => { bar.scrollLeft = on.offsetLeft - (bar.clientWidth - on.offsetWidth) / 2; });
+    let sx = 0, sy = 0, ok = false;
+    document.addEventListener("touchstart", (e) => {
+        const t = e.touches[0]; sx = t.clientX; sy = t.clientY; ok = e.touches.length === 1;
+        for (let n = e.target; ok && n && n !== document.body; n = n.parentElement) {
+            if (n.id === "jtTabs" || n.id === "dv" || n.tagName === "CANVAS") ok = false;
+            else { const s = getComputedStyle(n); if (/(auto|scroll)/.test(s.overflowX) && n.scrollWidth > n.clientWidth + 2) ok = false; }
+        }
+    }, { passive: true });
+    document.addEventListener("touchend", (e) => {
+        if (!ok) return;
+        const t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+        if (dx > 60 && dx > 1.6 * Math.abs(dy)) location.href = stockUrl("") + "#last";
+    }, { passive: true });
+    document.addEventListener("keydown", (e) => { if (e.key === "ArrowLeft" && !/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) location.href = stockUrl("") + "#last"; });
+})();
+</script>
 </body></html>
