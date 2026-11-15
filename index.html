@@ -288,7 +288,7 @@ function SIGM() {
     return _sigm;
 }
 const passed = (x) => x.state !== "yang" && (x.state !== "wait" || (x.mid && x.c >= x.mid));
-const sigName = (x, v) => !x || v < 90 ? "" : x.crown && x.rsi < 45 ? "최고" : x.m >= 5 && x.rsi < 45 ? "몰림" : x.re ? "재신호" : x.crown ? "몰림" : "";
+const sigName = (x, v) => !x || v < 90 ? "" : x.crown && x.rsi < 45 ? "MAX" : x.m >= 5 && x.rsi < 45 ? "HOT" : x.re ? "RE" : x.crown ? "HOT" : "";
 const crPen = (cr) => cr == null ? 0 : cr >= 6 ? 15 : cr >= 3 ? 10 : 0;
 const upPen = (x) => x.u ? 10 : 0;
 const tgtScore = (x) => { const v = Math.max(80, sigBase(x) - crPen(x.cr) - upPen(x)); return x.ltv ? 79 : x.rrl ? Math.min(89, v) : v; };
@@ -659,6 +659,7 @@ function renderTopRep() {
         <tbody>${rows}</tbody></table></div></div>`;
 }
 function renderReport() {
+    $("report").innerHTML = renderTopRep(); return;
     const R = META.report;
     if (!R) {
         $("report").innerHTML = renderTopRep() + `<div class="rep"><h3>📈 성적표</h3><p class="sub">내일 다시 실행하면 오늘 종목의 다음 날 결과(시가·고가·종가)가 여기에 쌓여요.</p></div>`;
